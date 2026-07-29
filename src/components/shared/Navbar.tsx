@@ -38,7 +38,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     Sheet,
     SheetContent,
@@ -47,11 +46,11 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { useIsMobile } from "@/components/hooks/useMobile";
 import { Container } from "./Container";
 import { logoutAction } from "@/server/auth/auth.service";
-import Image from "next/image";
 import { Toast } from "../reusable/toast";
+import { useAuth } from "@/provider/AuthProvider";
+import Swal from "sweetalert2";
 
 interface MenuItem {
     title: string;
@@ -63,28 +62,18 @@ interface MenuItem {
 
 interface NavbarProps {
     className?: string;
-    logo?: LogoProps;
     menu?: MenuItem[];
-}
-
-interface LogoProps {
-    url: string;
-    src: string;
-    alt: string;
-    title?: string;
-    className?: string;
 }
 
 const defaultMenu: MenuItem[] = [
     { title: "Home", url: "/" },
     { title: "Properties", url: "/properties" },
-    { title: "Contact", url: "/contact" },
-    { title: "Blogs", url: "/blogs" },
+    { title: "About", url: "/about" },
 ];
 
 const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
     const [scrolled, setScrolled] = useState(false);
-    const [userEmail, setUserEmail] = useState("");
+    const { user, setUser, isLoggedIn } = useAuth();
 
     // Scroll effect
     useEffect(() => {
@@ -109,12 +98,13 @@ const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
                 });
                 return;
             }
-
-            Toast({
+            setUser(null);
+            Swal.fire({
                 icon: "success",
                 title: "Logout successful",
-            });
-
+                text: "You have been logged out successfully",
+                confirmButtonColor: "#4CAF50"
+            })
         } catch (error: any) {
             Toast({
                 icon: "error",
@@ -145,18 +135,15 @@ const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
                     <div className="w-full">
                         <DesktopMenu
                             menu={menu}
-                            scrolled={scrolled}
-                            userEmail={userEmail}
-                            setUserEmail={setUserEmail}
-                            // user={user}
+                            user={user}
+                            isLoggedIn={isLoggedIn}
                             handleLogOut={handleLogOut}
                         />
 
                         <MobileMenu
                             menu={menu}
-                            userEmail={userEmail}
-                            setUserEmail={setUserEmail}
-                            // user={user}
+                            user={user}
+                            isLoggedIn={isLoggedIn}
                             handleLogOut={handleLogOut}
                         />
                     </div>
@@ -167,36 +154,38 @@ const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
 };
 
 // ====================== Desktop Menu ======================
-const DesktopMenu = ({
-    menu,
-    userEmail,
-    setUserEmail,
-    isLoggedIn,
-    user,
-    handleLogOut,
-}: any) => {
+const DesktopMenu = ({ menu, user, isLoggedIn, handleLogOut }: any) => {
     return (
-        <nav className="hidden items-center justify-between lg:flex">
+        <nav className="hidden h-20 items-center justify-between lg:flex">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+                <Link href={"/"} className="flex flex-col">
+                    <span className="text-2xl font-bold tracking-tight text-foreground hover:text-primary transition-all duration-300">
+                        Rent Nest
+                    </span>
+                    <span className="-mt-1 text-xs text-muted-foreground">
+                        Find your perfect home
+                    </span>
+                </Link>
+            </div>
 
-            <p className="text-2xl font-semibold">RentNest</p>
+            {/* Navigation */}
+            <div className="rounded-full border border-border/60 bg-card/70 px-6 py-2 shadow-sm backdrop-blur-xl">
+                <NavigationMenu>
+                    <NavigationMenuList className="gap-5">
+                        {menu.map((item: MenuItem) => (
+                            <DesktopMenuItem key={item.title} item={item} />
+                        ))}
+                    </NavigationMenuList>
+                </NavigationMenu>
+            </div>
 
-            <div className="flex items-center gap-6">
-                <div className="relative flex items-center gap-6 bg-primary py-3 px-6 clip-path-custom before:content-[''] before:absolute before:top-0 before:-left-9.75 before:h-full before:w-10 before:bg-primary before:[clip-path:polygon(100%_0,100%_100%,0_100%)]">
-                    <NavigationMenu>
-                        <NavigationMenuList>
-                            {menu.map((item: MenuItem) => (
-                                <DesktopMenuItem key={item.title} item={item} />
-                            ))}
-                        </NavigationMenuList>
-                    </NavigationMenu>
-                </div>
-
+            {/* Right Side */}
+            <div className="flex items-center gap-3">
                 <AuthButtons
                     isLoggedIn={isLoggedIn}
                     user={user}
                     handleLogOut={handleLogOut}
-                    userEmail={userEmail}
-                    setUserEmail={setUserEmail}
                 />
             </div>
         </nav>
@@ -204,58 +193,37 @@ const DesktopMenu = ({
 };
 
 // ====================== Auth ======================
-const AuthButtons = ({
-    isLoggedIn,
-    user,
-    handleLogOut,
-}: any) => {
-    // const isMobile = useIsMobile();
+const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
     return (
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
             {user ? (
-                <Button className="bg-primary lg:bg-background/20 border w-fit">
+                <div className="w-fit">
                     <Link
                         href={"/dashboard"}
-                        className="text-sm font-semibold text-background lg:text-foreground"
+                        className="text-md font-semibold text-background lg:text-foreground bg-muted px-4 py-2 rounded-full hover:bg-muted/80 transition-colors duration-300 hover:text-primary border border-border/60"
                     >
                         Dashboard
                     </Link>
-                </Button>
+                </div>
             ) : (
                 <div>
-                    <Link href={'/register'}>
-                        <Button
-                            className="bg-background/20! border! w-fit text-sm! text-foreground!"
-                        >
-                            Business Registration
-                        </Button>
-                    </Link>
                 </div>
             )}
 
             <div className="flex items-center gap-4">
                 <ThemeToggle />
                 {!isLoggedIn ? (
-                    <>
-                        {/* customer signin/register */}
-                        <div>
-                                 <Link href={'/login'}>
-                                    <Button
-                                        className="text-xs!"
-                                    >
-                                        LOGIN / REGISTER
-                                    </Button>
-                                </Link>
-
-                         </div>
-                    </>
+                    <div>
+                        <Link href={"/login"}>
+                            <Button className="px-4 py-5 font-medium cursor-pointer text-white">LOGIN / REGISTER</Button>
+                        </Link>
+                    </div>
                 ) : (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <button className="rounded-full cursor-pointer">
+                            <button className="rounded-full cursor-pointer border border-primary/60 hover:border-primary">
                                 <Avatar>
                                     <AvatarImage src={user?.avatar} alt={user?.name || "User"} />
-
                                     <AvatarFallback className="font-semibold">
                                         {user?.name?.charAt(0).toUpperCase() || "U"}
                                     </AvatarFallback>
@@ -274,11 +242,7 @@ const AuthButtons = ({
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <Avatar className="h-11 w-11 border">
-                                        <AvatarImage
-                                            src={user?.avatar}
-                                            alt={user?.name || "User"}
-                                        />
-
+                                        <AvatarImage src={user?.avatar} alt={user?.name || "User"} />
                                         <AvatarFallback className="font-semibold">
                                             {user?.name?.charAt(0).toUpperCase() || "U"}
                                         </AvatarFallback>
@@ -312,7 +276,6 @@ const AuthButtons = ({
                                         <Phone className="h-3.5 w-3.5" />
                                         Phone
                                     </span>
-
                                     <span className="font-medium">{user?.phone}</span>
                                 </div>
 
@@ -321,8 +284,7 @@ const AuthButtons = ({
                                         <Shield className="h-3.5 w-3.5" />
                                         Role
                                     </span>
-
-                                    <span className="font-medium">{user?.role?.name}</span>
+                                    <span className="font-medium">{user?.role}</span>
                                 </div>
                             </div>
 
@@ -330,7 +292,7 @@ const AuthButtons = ({
                             <div className="mt-4 border-t pt-3">
                                 <button
                                     onClick={handleLogOut}
-                                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-500 transition-all hover:bg-red-500/10"
+                                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer text-red-500 transition-all hover:bg-red-500/10"
                                 >
                                     <LogOut className="h-4 w-4" />
                                     Logout
@@ -370,12 +332,24 @@ const DesktopMenuItem = ({ item }: { item: MenuItem }) => {
                 <Link
                     href={item.url}
                     className={clsx(
-                        "group/nav relative px-3 py-2 uppercase font-medium text-background transition-all duration-300 hover:bg-background/10 hover:text-background focus:bg-transparent focus:text-background",
-                        isActive &&
-                        "after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:w-full after:rounded-full after:bg-background/80 font-semibold text-background/80",
+                        "group relative flex items-center text-sm font-medium uppercase tracking-wide transition-all duration-300 ease-out",
+                        "text-background/80 hover:text-primary",
+                        "hover:-translate-y-0.5 hover:text-primary",
+                        isActive
+                            ? "text-primary font-semibold"
+                            : "text-foreground"
                     )}
                 >
                     {item.title}
+
+                    <span
+                        className={clsx(
+                            "absolute left-1/2 bottom-0 h-0.5 -translate-x-1/2 rounded-full bg-primary transition-all duration-300",
+                            isActive
+                                ? "w-8 opacity-100"
+                                : "w-0 opacity-0 hover:w-5 hover:opacity-70"
+                        )}
+                    />
                 </Link>
             </NavigationMenuLink>
         </NavigationMenuItem>
@@ -383,20 +357,11 @@ const DesktopMenuItem = ({ item }: { item: MenuItem }) => {
 };
 
 // ====================== Mobile Menu ======================
-const MobileMenu = ({
-    menu,
-    authView,
-    setAuthView,
-    email,
-    setEmail,
-    isLoggedIn,
-    user,
-    handleLogOut,
-}: any) => {
+const MobileMenu = ({ menu, user, isLoggedIn, handleLogOut }: any) => {
     return (
         <div className="block lg:hidden py-2">
             <div className="flex items-center justify-between">
-                <p className="text-xl font-bold">rent nest</p>
+                <p className="text-xl font-bold">Rent Nest</p>
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button size="icon">
@@ -407,7 +372,7 @@ const MobileMenu = ({
                     <SheetContent className="overflow-y-auto lg:hidden">
                         <SheetHeader>
                             <SheetTitle>
-                                <p className="text-xl font-bold">rent nest</p>
+                                <p className="text-xl font-bold">Rent Nest</p>
                             </SheetTitle>
                         </SheetHeader>
 
@@ -426,10 +391,6 @@ const MobileMenu = ({
                                 isLoggedIn={isLoggedIn}
                                 user={user}
                                 handleLogOut={handleLogOut}
-                                authView={authView}
-                                setAuthView={setAuthView}
-                                email={email}
-                                setEmail={setEmail}
                             />
                         </div>
                     </SheetContent>

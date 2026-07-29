@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/shared/Navbar";
-import { ThemeProvider } from "@/components/shared/theme/ThemeProvider";
+import { AuthProvider } from "@/provider/AuthProvider";
+import Providers from "@/provider/Providers";
+import { getUser } from "@/server/user/user.service";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,28 +20,26 @@ export const metadata: Metadata = {
   description: "A property rental app",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUser();
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange 
-        >
-          <nav>
-            <Navbar />
-          </nav>
-          {children}
-        </ThemeProvider>
+        <Providers>
+          <AuthProvider 
+            initialUser={user.success ? user.data : null}
+          >
+            {children}
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );
