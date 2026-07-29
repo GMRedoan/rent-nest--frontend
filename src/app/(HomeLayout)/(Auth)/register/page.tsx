@@ -1,11 +1,11 @@
-import React from 'react';
+import RegisterBanner from "@/components/home/auth/RegisterBanner";
+import RegisterForm from "@/components/home/auth/RegisterForm";
 
-const page = () => {
+export default function RegisterPage() {
     return (
-        <div>
-            this is register
-        </div>
+        <main className="min-h-screen grid lg:grid-cols-2">
+            <RegisterForm />
+            <RegisterBanner />
+        </main>
     );
-};
-
-export default page;
+}

@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
 type LoginData = z.infer<typeof loginSchema>;
 
@@ -34,6 +35,7 @@ export default function LoginForm() {
             const result = await login(payload);
 
             if (result.success) {
+                await refreshUser();
                 router.push("/");
                 Swal.fire({
                     title: "Welcome Back",
@@ -41,7 +43,6 @@ export default function LoginForm() {
                     icon: "success",
                     confirmButtonColor: "#4CAF50"
                 });
-                await refreshUser();
                 reset();
             }else {
                 Toast({
@@ -75,7 +76,7 @@ export default function LoginForm() {
                             <Label>Email</Label>
 
                             <div className="relative">
-                                {/* <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" /> */}
+                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
 
                                 <Input
                                     {...register("email")}
@@ -95,7 +96,7 @@ export default function LoginForm() {
                             <Label>Password</Label>
 
                             <div className="relative">
-                                {/* <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" /> */}
+                                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
 
                                 <Input
                                     type="password"
@@ -113,7 +114,7 @@ export default function LoginForm() {
                         </div>
 
                         <Button
-                            className="w-full h-12 text-base"
+                            className="w-full h-12 text-white font-semibold"
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? "Signing In..." : "Login"}

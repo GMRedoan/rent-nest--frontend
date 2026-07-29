@@ -1,9 +1,42 @@
 "use server"
 
 import serverFetch from "@/lib/serverFetch";
-import { ILoginPayload, Response } from "@/types/auth/auth";
-import { loginSchema } from "@/validation/auth.schema";
+import { ICreateUser, ILoginPayload, Response } from "@/types/auth/auth";
+import { createUserSchema, loginSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
+
+// register
+export const registerUser = async (payload: ICreateUser) => {
+    try {
+        const validatedPayload = await createUserSchema.safeParseAsync(payload);
+
+        if (!validatedPayload.success) {
+            return {
+                success: false,
+                message: validatedPayload.error.message,
+            };
+        }
+        const result = await serverFetch.post<Response>("/auth/register", validatedPayload.data);
+
+        if (!result.success || !result.data) {
+            return {
+                success: false,
+                message: result.message,
+            };
+        }
+        return {
+            success: true,
+            message: result.message,
+        };
+
+    } catch (error) {
+        console.error("REGISTER ERROR:", error);
+        return {
+            success: false,
+            message: error instanceof Error ? error.message : "Something went wrong",
+        };
+    }
+} 
 
 // login
 export const login = async (payload: ILoginPayload) => {

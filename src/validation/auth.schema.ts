@@ -1,9 +1,8 @@
 import z from "zod";
 
-const userRoleEnum = z.enum(['TENANT', 'ADMIN', 'LANDLORD']);
+const userRoleEnum = z.enum(['TENANT', 'LANDLORD']);
 
 export const createUserSchema = z.object({
-    body: z.object({
         name: z.string().min(1, 'Name is required'),
         email: z.string().email('Invalid email format'),
         phone: z.string().regex(/^[0-9+\-\s]{7,15}$/, 'Invalid phone number'),
@@ -15,7 +14,6 @@ export const createUserSchema = z.object({
                 'Password must contain uppercase, lowercase, number, and special character'
             ),
         role: userRoleEnum.optional(),
-    }),
 });
 
 export const loginSchema = z.object({
