@@ -26,6 +26,7 @@ import { createUserSchema } from "@/validation/auth.schema";
 import { registerUser } from "@/server/auth/auth.service";
 import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
+import { MdArrowBackIos } from "react-icons/md";
 
 type FormData = z.infer<typeof createUserSchema>;
 
@@ -69,6 +70,15 @@ export default function RegisterForm() {
 
     return (
         <section className="flex items-center justify-center bg-background px-6 py-10">
+            <div className="relative">
+                <Link
+                    className="absolute bottom-80 -left-20 text-foreground hover:text-primary flex items-center"
+                    href={"/"}>
+                    <MdArrowBackIos />
+                    Home
+                </Link>
+            </div>
+
             <Animate className="w-full max-w-lg" type="fadeRight">
                 <div className="space-y-8">
                     <div>

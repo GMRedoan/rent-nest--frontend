@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import { MdArrowBackIos } from "react-icons/md";
 
 type LoginData = z.infer<typeof loginSchema>;
 
@@ -58,6 +59,14 @@ export default function LoginForm() {
 
     return (
         <section className="flex items-center justify-center px-6 py-12 bg-background">
+            <div className="relative">
+                <Link 
+                    className="absolute bottom-75 -left-25 text-foreground hover:text-primary flex items-center" 
+                    href={"/"}>
+                    <MdArrowBackIos />
+                    Home
+                </Link>
+            </div>
             <Animate type="fadeLeft" className="w-full max-w-md">
                 <div className="space-y-8">
                     <div>
