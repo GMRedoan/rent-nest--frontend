@@ -230,7 +230,6 @@ const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
                                 </Avatar>
                             </button>
                         </DropdownMenuTrigger>
-
                         <DropdownMenuContent
                             align="end"
                             className="w-72 rounded-xl border bg-background p-4 shadow-xl"
