@@ -1,11 +1,16 @@
-import React from 'react';
+import { getUser } from "@/server/user/user.service";
+import { redirect } from "next/navigation";
+ 
+const DashboardPage = async () => {
+    const user = await getUser();
 
-const page = () => {
-    return (
-        <div>
-            this is dashboard
-        </div>
-    );
+        if(user?.data?.role === "ADMIN"){
+            redirect("/dashboard/admin");
+        } else if (user?.data?.role === "LANDLORD"){
+            redirect("/dashboard/landlord");
+        } else if (user?.data?.role === "TENANT"){
+            redirect("/dashboard/tenant");
+        }
 };
 
-export default page;
+export default DashboardPage;

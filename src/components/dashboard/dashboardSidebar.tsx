@@ -77,7 +77,10 @@ export default function DashboardSidebar() {
                         </span>
                     )}
                 </Link>
-                <h1 className="text-center">{user?.role} DASHBOARD</h1>
+                {
+                    collapsed ? (""): (<div><h1 className = "text-center">{user?.role} DASHBOARD</h1></div>
+)
+                }
             </SidebarHeader>
 
             <SidebarContent>
@@ -98,7 +101,6 @@ export default function DashboardSidebar() {
                                             >
                                                 <Link href={item.href}>
                                                     <item.icon />
-
                                                     <span>
                                                         {item.title}
                                                     </span>

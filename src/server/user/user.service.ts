@@ -9,7 +9,7 @@ export const getUser = async () => {
         return {
             success: false,
             message: res.message,
-            data: null
+            data:  null
         };
     }
 
