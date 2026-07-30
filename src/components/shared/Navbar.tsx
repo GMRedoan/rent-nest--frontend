@@ -127,7 +127,7 @@ const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
                 className={clsx(
                     "transition-all duration-500 flex justify-center w-full",
                     scrolled
-                        ? "rounded-xl bg-background/60 backdrop-blur-sm shadow-[0_0_25px_rgba(0,0,0,0.2)]"
+                        ? "rounded-full bg-background/60 backdrop-blur-sm shadow-[0_0_25px_rgba(0,0,0,0.2)] px-6"
                         : "bg-background/80",
                 )}
             >

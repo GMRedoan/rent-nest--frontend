@@ -23,7 +23,7 @@ export async function proxy(request : NextRequest) {
 
     // logged in user can not access login drawer
     if (decodedToken && authRoutes.includes(pathname)) {
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/?error=unauthorized", request.url));
     }
 
     // If the user is not logged in and the route is protected, redirect to the login drawer
