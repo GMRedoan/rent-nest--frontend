@@ -21,7 +21,7 @@ export default function HeroBanner() {
         }
     }, [searchParams]);
     return (
-        <section className="relative overflow-hidden bg-linear-to-b from-background to-muted/40 pt-16">
+        <section className="relative overflow-hidden bg-linear-to-b from-background to-muted/40 py-16">
 
             <div className="container mx-auto grid min-h-[88vh] items-center gap-16 px-6 py-16 lg:grid-cols-2">
 
