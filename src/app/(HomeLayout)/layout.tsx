@@ -12,12 +12,14 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-          <nav>
-            <Navbar />
-          </nav>
-          {children}
-          <Footer/>
-    </>
+    <div>
+      <nav>
+        <Navbar />
+      </nav>
+      <main className="max-w-7xl mx-auto px-5">
+        {children}
+      </main>
+      <Footer />
+    </div>
   );
 }

@@ -25,3 +25,11 @@ export interface GetPropertiesResponse {
     };
 }
 
+export interface GetPropertyResponse {
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        properties: IProperty;
+    };
+}

@@ -1,7 +1,7 @@
 "use server"
 
 import serverFetch from "@/lib/serverFetch";
-import { GetPropertiesResponse} from "@/types/property/property";
+import { GetPropertiesResponse, GetPropertyResponse} from "@/types/property/property";
 
 export const getProperties = async () => {
     try {
@@ -27,8 +27,8 @@ export const getProperties = async () => {
 
 export const getPropertyById = async (id: string) => {
     try {
-        const res = await serverFetch.get(`/properties/${id}`) as GetPropertiesResponse;;
-
+        const res = await serverFetch.get(`/properties/${id}`) as GetPropertyResponse;
+console.log(res);
 
         if (!res.success || !res.data) {
             return {
@@ -37,17 +37,12 @@ export const getPropertyById = async (id: string) => {
                 data: null,
             };
         }
-
-
         return {
             success: true,
             data: res.data.properties,
         };
-
-
     } catch (error) {
         console.error("GET PROPERTY ERROR:", error);
-
         return {
             success: false,
             message: "Failed to load property",
