@@ -73,7 +73,7 @@ export default function PropertiesPage({
     }, [safeProperties, search, type, sort]);
 
     return (
-        <section className="bg-muted px-8 pt-12 rounded-2xl min-h-screen">
+        <section className="bg-muted px-8 py-12 rounded-2xl min-h-screen">
 
             <div className="mb-10 grid gap-4 md:grid-cols-3">
                 <Input

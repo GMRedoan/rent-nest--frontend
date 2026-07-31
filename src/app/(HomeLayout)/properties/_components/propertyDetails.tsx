@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { IProperty } from "@/types/property/property";
+import RentalRequestModal from "@/components/Rental/ RentalRequestModal";
 
 interface Props {
     property: IProperty;
@@ -130,12 +131,12 @@ export default function PropertyDetails({
                             Description
                         </h2>
 
-                        <p className="leading-7 text-muted-foreground">
+                        <p className="leading-7 text-muted-foreground min-h-50">
                             {property.description}
                         </p>
 
                     </div>
-                    <Button
+                    {/* <Button
                         size="lg"
                         className="w-full"
                         disabled={property.status === "RENTED"}
@@ -145,7 +146,8 @@ export default function PropertyDetails({
                             : "Request Rental"
                         }
 
-                    </Button>
+                    </Button> */}
+            <RentalRequestModal property={property} />
                 </Card>
             </div>
         </section>

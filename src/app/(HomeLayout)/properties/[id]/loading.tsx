@@ -5,11 +5,11 @@ export default function Loading() {
 
     return (
 
-        <section className="container py-12">
+        <section className="container py-30">
 
             <div className="grid gap-10 lg:grid-cols-2">
 
-                <Skeleton className="h-[450px] rounded-3xl" />
+                <Skeleton className="h-112 rounded-3xl" />
 
 
                 <div className="space-y-6">

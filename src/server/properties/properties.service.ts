@@ -28,8 +28,6 @@ export const getProperties = async () => {
 export const getPropertyById = async (id: string) => {
     try {
         const res = await serverFetch.get(`/properties/${id}`) as GetPropertyResponse;
-console.log(res);
-
         if (!res.success || !res.data) {
             return {
                 success: false,
