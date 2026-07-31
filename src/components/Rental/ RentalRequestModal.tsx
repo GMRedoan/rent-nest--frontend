@@ -83,9 +83,9 @@ export default function RentalRequestModal({ property }: Props) {
                     </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-lg">
-                <DialogHeader>
-                    <DialogTitle>Request Rental</DialogTitle>
+            <DialogContent className="sm:max-w-lg p-8">
+                <DialogHeader className="text-center">
+                    <DialogTitle className="text-xl">Request Rental</DialogTitle>
 
                     <DialogDescription>
                         Fill in the information below to send your rental
@@ -98,12 +98,14 @@ export default function RentalRequestModal({ property }: Props) {
                     className="space-y-5"
                 >
                     {/* Message */}
-
-                    <div className="space-y-2">
+                    
+                    <div >
+                        <label className="text-sm font-medium">Message (optional)</label>
                         <Textarea
                             {...register("message", {
                             })}
                             rows={5}
+                            className="mt-2"
                             placeholder="Write why you want to rent this property..."
                         />
                         {errors.message && (

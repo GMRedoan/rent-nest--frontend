@@ -13,3 +13,35 @@ export interface CreateRentalRequestResponse {
         rentalRequest: IRentalReq;
     };
 }
+
+export interface IMyRentalHistory {
+    id: string;
+    message: string;
+    status: "PENDING" | "APPROVED" | "REJECTED";
+    startDate: string;
+    endDate: string | null;
+
+    property: {
+        id: string;
+        title: string;
+        images: string[];
+        propertyType: string;
+        location: string;
+        price: number;
+    };
+
+    payment: {
+        id: string;
+        amount: number;
+        status: "PENDING" | "PAID" | "FAILED";
+    } | null;
+}
+
+export interface myRentalReqRes {
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        rentalRequests: IMyRentalHistory[];
+    };
+}

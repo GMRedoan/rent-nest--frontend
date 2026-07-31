@@ -73,23 +73,13 @@ export const sidebarItems = {
     TENANT: [
         {
             title: "Dashboard",
-            href: "/dashboard",
+            href: "/dashboard/tenant",
             icon: Home,
         },
         {
-            title: "Browse Properties",
-            href: "/properties",
-            icon: Building2,
-        },
-        {
             title: "My Requests",
-            href: "/dashboard/my-requests",
+            href: "/dashboard/tenant/myRequests",
             icon: ClipboardList,
-        },
-        {
-            title: "Favorites",
-            href: "/dashboard/favorites",
-            icon: Heart,
         },
         {
             title: "Profile",
