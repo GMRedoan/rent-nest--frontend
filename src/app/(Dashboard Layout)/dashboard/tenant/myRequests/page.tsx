@@ -8,7 +8,7 @@ const page = async () => {
         <div>
             <div className="mb-8">
                 <h1 className="text-3xl font-bold">
-                    Rental History
+                    Rental <span className="text-primary">History</span>
                 </h1>
 
                 <p className="mt-2 text-muted-foreground">

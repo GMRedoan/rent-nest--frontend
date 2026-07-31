@@ -7,6 +7,7 @@ import {
     User,
     Settings,
 } from "lucide-react";
+import { MdPayment } from "react-icons/md";
 
 export const sidebarItems = {
     ADMIN: [
@@ -80,6 +81,11 @@ export const sidebarItems = {
             title: "My Requests",
             href: "/dashboard/tenant/myRequests",
             icon: ClipboardList,
+        },
+        {
+            title: "Payment History",
+            href: "/dashboard/tenant/paymentHistory",
+            icon: MdPayment,
         },
         {
             title: "Profile",

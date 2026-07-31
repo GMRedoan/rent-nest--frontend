@@ -3,6 +3,9 @@ import { redirect } from "next/navigation";
  
 const DashboardPage = async () => {
     const user = await getUser();
+    if(!user){
+        redirect("/");
+    }
 
         if(user?.data?.role === "ADMIN"){
             redirect("/dashboard/admin");
