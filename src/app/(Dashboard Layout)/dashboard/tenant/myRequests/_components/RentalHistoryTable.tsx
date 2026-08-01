@@ -66,9 +66,7 @@ export default function RentalHistoryTable({
                         <TableHead>End Date</TableHead>
                         <TableHead>Request Status</TableHead>
                         <TableHead>Payment</TableHead>
-                        <TableHead className="text-right">
-                            Action
-                        </TableHead>
+                        <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

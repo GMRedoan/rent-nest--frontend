@@ -16,7 +16,7 @@ const badgeVariants = cva(
         destructive:
           "bg-red-600/80 text-white focus-visible:ring-destructive/20 p-3 px-4",
         outline:
-          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
+          "border border-primary p-3 text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
