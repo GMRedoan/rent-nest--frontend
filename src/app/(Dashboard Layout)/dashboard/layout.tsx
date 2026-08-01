@@ -4,6 +4,12 @@ import {
     SidebarInset,
     SidebarProvider,
 } from "@/components/ui/sidebar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Rent Nest | Dashboard",
+    description: "A property rental app",
+};
 
 export default function DashboardLayout({
     children,

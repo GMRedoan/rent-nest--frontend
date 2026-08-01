@@ -13,11 +13,11 @@ const buttonVariants = cva(
         outline:
           "border-border cursor-pointer bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
-          "hover:bg-primary text-white py-4 border border-primary cursor-pointer disabled:border-muted-foreground",
+          "hover:bg-primary text-foreground py-4 border border-primary cursor-pointer disabled:border-muted-foreground",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50 py-4 border border-muted-foreground",
         destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
+          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40 cursor-pointer py-4",
         link: "bg-blue-600 text-white py-4 cursor-pointer",
       },
       size: {

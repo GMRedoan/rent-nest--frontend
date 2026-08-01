@@ -48,16 +48,16 @@ export default function PropertiesPage({
             case "newest":
                 data.sort(
                     (a, b) =>
-                        new Date(b.createdAt).getTime() -
-                        new Date(a.createdAt).getTime()
+                        new Date(b.createdAt ?? 0).getTime() -
+                        new Date(a.createdAt ?? 0).getTime()
                 );
                 break;
 
             case "oldest":
                 data.sort(
                     (a, b) =>
-                        new Date(a.createdAt).getTime() -
-                        new Date(b.createdAt).getTime()
+                        new Date(a.createdAt ?? 0).getTime() -
+                        new Date(b.createdAt ?? 0).getTime()
                 );
                 break;
 

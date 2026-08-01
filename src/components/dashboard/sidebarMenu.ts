@@ -51,7 +51,7 @@ export const sidebarItems = {
         },
         {
             title: "My Properties",
-            href: "/dashboard/my-properties",
+            href: "/dashboard/landlord/myProperties",
             icon: Building2,
         },
         {

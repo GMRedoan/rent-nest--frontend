@@ -9,7 +9,7 @@ export default async function ReviewsPage() {
         <div className="space-y-8">
             <div>
                 <h1 className="text-3xl font-bold">
-                    Property Reviews
+                    Property <span className="text-primary">Reviews</span>
                 </h1>
                 <p className="mt-2 text-muted-foreground">
                     See what tenants are saying about your properties.

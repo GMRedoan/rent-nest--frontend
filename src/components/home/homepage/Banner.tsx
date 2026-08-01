@@ -23,7 +23,7 @@ export default function HeroBanner() {
     return (
         <section className="relative overflow-hidden py-16">
 
-            <div className="container mx-auto grid min-h-[88vh] items-center gap-16 px-6 py-16 lg:grid-cols-2">
+            <div className="container mx-auto grid min-h-[88vh] items-center gap-16 py-16 lg:grid-cols-2">
 
                 {/* Left */}
 

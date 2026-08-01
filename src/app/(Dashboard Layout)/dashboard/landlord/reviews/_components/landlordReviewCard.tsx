@@ -13,11 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import Animate from "@/components/reusable/Animate";
 import { ILandlordReview } from "@/types/review/review";
  
-
 interface Props {
     review: ILandlordReview;
 }
-
 
 export default function LandlordReviewCard({
     review,

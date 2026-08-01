@@ -1,13 +1,14 @@
 export interface IProperty {
-    id: string;
+    id?: string;
     title: string;
     description: string;
     location: string;
     price: number;
     propertyType: "HOUSE" | "APARTMENT" | "ROOM" | "STUDIO" | "COMMERCIAL";
-    status: "AVAILABLE" | "RENTED" | "INACTIVE";
+    status?: "AVAILABLE" | "RENTED" | "INACTIVE";
     images: string[];
-    createdAt: string;
+    categoryId?: string;
+    createdAt?: string;
 }
 
 export interface GetPropertiesResponse {
@@ -32,4 +33,34 @@ export interface GetPropertyResponse {
     data: {
         properties: IProperty;
     };
+}
+
+export interface createPropertyResponse {
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        property: IProperty;
+    };
+}
+
+export interface AddPropertyForm {
+    title: string;
+    description: string;
+    location: string;
+    propertyType:
+    | "HOUSE"
+    | "APARTMENT"
+    | "ROOM"
+    | "STUDIO"
+    | "COMMERCIAL";
+    categoryId: string;
+    price: number;
+    images: FileList;
+}
+
+export interface deletePropertyResponse {
+    success: boolean;
+    statusCode: number;
+    message: string;
 }
