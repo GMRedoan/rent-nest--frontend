@@ -25,6 +25,7 @@ const serverFetchHelper = async <T>(
 
     const response = await fetch(`${API_URL}${endpoint}`, {
         ...restOptions,
+        cache: "no-store",
         headers: {
             ...(!isFormData && { "Content-Type": "application/json" }),
             ...(accessToken && {

@@ -38,3 +38,18 @@ export interface GetUserResponse {
     message: string;
     data : {profile : IUserProfile}
 }
+
+export interface IUpdateProfile {
+    name?: string;
+    phone?: string;
+    bio?: string;
+    profilePhoto?: string;
+}
+
+export interface IUpdateProfileResponse {
+    success: boolean;
+    message: string;
+    data?: {
+        user: IUserProfile;
+    };
+}

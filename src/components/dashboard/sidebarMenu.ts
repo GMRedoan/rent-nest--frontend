@@ -94,7 +94,7 @@ export const sidebarItems = {
         },
         {
             title: "Profile",
-            href: "/dashboard/profile",
+            href: "/dashboard/tenant/profile",
             icon: User,
         },
     ],

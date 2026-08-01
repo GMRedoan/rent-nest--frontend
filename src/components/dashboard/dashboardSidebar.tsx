@@ -28,6 +28,7 @@ import { MdOutlineBroadcastOnHome } from "react-icons/md";
 import { Toast } from "../reusable/toast";
 import Swal from "sweetalert2";
 import { logoutAction } from "@/server/auth/auth.service";
+import Logo from "../reusable/logo";
 
 export default function DashboardSidebar() {
     const pathname = usePathname();
@@ -70,7 +71,7 @@ export default function DashboardSidebar() {
                     className="flex h-11.5 items-center justify-center transition-colors duration-300 hover:text-primary"
                 >
                     {collapsed ? (
-                        <MdOutlineBroadcastOnHome size={26} />
+                         <Logo/>
                     ) : (
                         <span className="text-2xl font-bold">
                             Rent Nest

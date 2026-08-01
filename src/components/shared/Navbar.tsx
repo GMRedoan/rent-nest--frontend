@@ -223,7 +223,7 @@ const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
                         <DropdownMenuTrigger asChild>
                             <button className="rounded-full cursor-pointer border border-primary/60 hover:border-primary">
                                 <Avatar>
-                                    <AvatarImage src={user?.avatar} alt={user?.name || "User"} />
+                                    <AvatarImage src={user?.profilePhoto} alt={user?.name || "User"} />
                                     <AvatarFallback className="font-semibold">
                                         {user?.name?.charAt(0).toUpperCase() || "U"}
                                     </AvatarFallback>
@@ -236,12 +236,12 @@ const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
                         >
                             {/* Header */}
                             <Link
-                                href={"/dashboard"}
+                                href={`/dashboard/${user?.role.toLowerCase()}/profile`}
                                 className="group mb-4 flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-foreground/3 p-3 transition-all hover:border-primary/20 hover:bg-foreground/5"
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <Avatar className="h-11 w-11 border">
-                                        <AvatarImage src={user?.avatar} alt={user?.name || "User"} />
+                                        <AvatarImage src={user?.profilePhoto} alt={user?.name || "User"} />
                                         <AvatarFallback className="font-semibold">
                                             {user?.name?.charAt(0).toUpperCase() || "U"}
                                         </AvatarFallback>
