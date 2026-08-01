@@ -17,6 +17,7 @@ import { IMyRentalHistory } from "@/types/rental/rental";
 import { FileX } from "lucide-react";
 import { useState } from "react";
 import RentalDetailsModal from "./rentalDetailsModal";
+import Animate from "@/components/reusable/Animate";
 
 interface Props {
     requests: IMyRentalHistory[];
@@ -57,7 +58,7 @@ export default function RentalHistoryTable({
         )
     }
     return (
-        <div className="rounded-2xl border bg-background">
+        <Animate className="rounded-2xl border bg-background">
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -169,6 +170,6 @@ export default function RentalHistoryTable({
                 onOpenChange={setOpen}
                 request={selectedRequest}
             />
-        </div>
+        </Animate>
     );
 }

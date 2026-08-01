@@ -14,6 +14,7 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { IPaymentHistory } from "@/types/payment/payment";
+import Animate from "@/components/reusable/Animate";
 
 interface Props {
     payments: IPaymentHistory[];
@@ -39,7 +40,7 @@ export default function PaymentHistoryTable({
     }
 
     return (
-        <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+        <Animate className="overflow-hidden rounded-2xl border bg-background shadow-sm">
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -92,6 +93,6 @@ export default function PaymentHistoryTable({
                     ))}
                 </TableBody>
             </Table>
-        </div>
+        </Animate>
     );
 }

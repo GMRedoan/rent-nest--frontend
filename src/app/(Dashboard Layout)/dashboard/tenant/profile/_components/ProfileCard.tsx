@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import EditProfileModal from "./EditProfileModal";
 import { useAuth } from "@/provider/AuthProvider";
+import Animate from "@/components/reusable/Animate";
 
 interface Props {
     user: IUserProfile;
@@ -28,7 +29,7 @@ export default function ProfileCard({ user }: Props) {
     return null;
     return (
         <>
-            <div className="overflow-hidden rounded-3xl border bg-background shadow-sm">
+            <Animate type="zoom" className="overflow-hidden rounded-3xl border bg-background shadow-sm">
                 {/* Header */}
                 <div className="flex items-start justify-between border-b p-8">
                     <div className="flex items-center gap-6">
@@ -142,7 +143,7 @@ export default function ProfileCard({ user }: Props) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Animate>
 
             <EditProfileModal
                 open={open}

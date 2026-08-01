@@ -47,7 +47,7 @@ export default async function TenantDashboardPage() {
     return (
         <div className="space-y-10">
             {/* Hero Banner */}
-            <Animate type="fadeUp">
+            <Animate type="fadeUp" delay={0.6}>
 
                 <section className="relative overflow-hidden rounded-3xl min-h-90">
 

@@ -14,9 +14,11 @@ import { Toast } from "../reusable/toast";
 import { logoutAction } from "@/server/auth/auth.service";
 import Swal from "sweetalert2";
 import { SidebarTrigger } from "../ui/sidebar";
+import { useRouter } from "next/navigation";
 
 export default function DashboardNavbar() {
     const { user, setUser } = useAuth();
+    const router = useRouter();
 
     const handleLogOut = async () => {
             try {
@@ -30,6 +32,7 @@ export default function DashboardNavbar() {
                     return;
                 }
                 setUser(null);
+                router.push("/login");
                 Swal.fire({
                     icon: "success",
                     title: "Logout successful",

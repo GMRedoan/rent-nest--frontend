@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IMyRentalHistory } from "@/types/rental/rental";
 import SubmitReviewModal from "./SubmitReviewModal";
+import Animate from "@/components/reusable/Animate";
 
 interface Props {
     rental: IMyRentalHistory;
@@ -18,7 +19,7 @@ export default function PropertyReviewCard({
 
     return (
         <>
-            <div className="overflow-hidden rounded-2xl border bg-background shadow-sm transition hover:shadow-lg">
+            <Animate type="zoom" className="overflow-hidden rounded-2xl border bg-background shadow-sm transition hover:shadow-lg">
                 <div className="relative h-56 w-full">
                     <Image
                         src={rental.property.images[0]}
@@ -55,7 +56,7 @@ export default function PropertyReviewCard({
                         Submit Review
                     </Button>
                 </div>
-            </div>
+            </Animate>
 
             <SubmitReviewModal
                 open={open}
