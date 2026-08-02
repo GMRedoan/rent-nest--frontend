@@ -67,8 +67,9 @@ export default function HeroBanner() {
 
                             <Button
                                 size="lg"
-                                variant="outline"
+                                variant="secondary"
                                 asChild
+                                className="py-5"
                             >
                                 <Link href="/register">
                                     Become a Landlord

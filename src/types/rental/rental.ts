@@ -20,7 +20,6 @@ export interface IMyRentalHistory {
     status: "PENDING" | "APPROVED" | "REJECTED";
     startDate: string;
     endDate: string | null;
-
     property: {
         id: string;
         title: string;
@@ -29,12 +28,16 @@ export interface IMyRentalHistory {
         location: string;
         price: number;
     };
-
     payment: {
         id: string;
         amount: number;
         status: "PENDING" | "PAID" | "FAILED";
     } | null;
+    tenant?: {
+        id: string;
+        name: string;
+        email: string;
+    };
 }
 
 export interface myRentalReqRes {
@@ -43,5 +46,14 @@ export interface myRentalReqRes {
     message: string;
     data: {
         rentalRequests: IMyRentalHistory[];
+    };
+}
+
+export interface UpdateRentalReqStatusResponse {
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        rentalRequest: IMyRentalHistory;
     };
 }

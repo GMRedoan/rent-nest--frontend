@@ -16,6 +16,7 @@ import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { MdArrowBackIos } from "react-icons/md";
+import { Loader2 } from "lucide-react";
 
 type LoginData = z.infer<typeof loginSchema>;
 
@@ -45,7 +46,7 @@ export default function LoginForm() {
                     confirmButtonColor: "#4CAF50"
                 });
                 reset();
-            }else {
+            } else {
                 Toast({
                     icon: "error",
                     title: result?.message || "Login failed",
@@ -60,8 +61,8 @@ export default function LoginForm() {
     return (
         <section className="flex items-center justify-center px-6 py-12 bg-background">
             <div className="relative">
-                <Link 
-                    className="absolute bottom-75 -left-25 text-foreground hover:text-primary flex items-center" 
+                <Link
+                    className="absolute bottom-75 -left-25 text-foreground hover:text-primary flex items-center"
                     href={"/"}>
                     <MdArrowBackIos />
                     Home
@@ -126,7 +127,12 @@ export default function LoginForm() {
                             className="w-full h-12 text-white font-semibold"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Signing In..." : "Login"}
+                            {isSubmitting ?
+                                <>
+                                    Signing In...
+                                    < Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                </>
+                                : "Login"}
                         </Button>
                     </form>
 

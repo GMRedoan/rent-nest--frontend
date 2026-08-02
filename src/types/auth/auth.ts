@@ -53,3 +53,19 @@ export interface IUpdateProfileResponse {
         user: IUserProfile;
     };
 }
+
+export interface IAllUsersResponse {
+    success: boolean;
+    message: string;
+    data?: {
+        users: IUserProfile[];
+    };
+}
+
+export interface IUpdateUserStatusResponse {
+    success: boolean;
+    message: string;
+    data: {
+        user: IUserProfile;
+    };
+}

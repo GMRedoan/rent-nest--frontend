@@ -13,12 +13,12 @@ export const sidebarItems = {
     ADMIN: [
         {
             title: "Dashboard",
-            href: "/dashboard",
+            href: "/dashboard/admin",
             icon: Home,
         },
         {
             title: "Users",
-            href: "/dashboard/users",
+            href: "/dashboard/admin/users",
             icon: Users,
         },
         {
@@ -33,20 +33,15 @@ export const sidebarItems = {
         },
         {
             title: "Profile",
-            href: "/dashboard/profile",
+            href: "/dashboard/admin/profile",
             icon: User,
-        },
-        {
-            title: "Settings",
-            href: "/dashboard/settings",
-            icon: Settings,
         },
     ],
 
     LANDLORD: [
         {
             title: "Dashboard",
-            href: "/dashboard",
+            href: "/dashboard/landlord",
             icon: Home,
         },
         {
@@ -56,7 +51,7 @@ export const sidebarItems = {
         },
         {
             title: "Rental Requests",
-            href: "/dashboard/requests",
+            href: "/dashboard/landlord/requests",
             icon: ClipboardList,
         },
         {
