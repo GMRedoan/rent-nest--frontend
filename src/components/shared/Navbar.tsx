@@ -51,6 +51,7 @@ import { logoutAction } from "@/server/auth/auth.service";
 import { Toast } from "../reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
 import Swal from "sweetalert2";
+import Logo from "../reusable/logo";
 
 interface MenuItem {
     title: string;
@@ -159,6 +160,7 @@ const DesktopMenu = ({ menu, user, isLoggedIn, handleLogOut }: any) => {
         <nav className="hidden h-20 items-center justify-between lg:flex">
             {/* Logo */}
             <div className="flex items-center gap-2">
+                <Logo/>
                 <Link href={"/"} className="flex flex-col">
                     <span className="text-2xl font-bold tracking-tight text-foreground hover:text-primary transition-all duration-300">
                         Rent Nest
@@ -200,7 +202,7 @@ const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
                 <div className="w-fit">
                     <Link
                         href={"/dashboard"}
-                        className="text-md font-semibold text-background lg:text-foreground bg-muted px-4 py-2 rounded-full hover:bg-muted/80 transition-colors duration-300 hover:text-primary border border-border/60"
+                        className="text-md font-semibold text-foreground lg:text-foreground bg-muted px-4 py-2 rounded-full hover:bg-muted/80 transition-colors duration-300 hover:text-primary border border-border/60"
                     >
                         Dashboard
                     </Link>
@@ -210,7 +212,7 @@ const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
                 </div>
             )}
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mt-8 md:mt-0">
                 <ThemeToggle />
                 {!isLoggedIn ? (
                     <div>
@@ -360,7 +362,13 @@ const MobileMenu = ({ menu, user, isLoggedIn, handleLogOut }: any) => {
     return (
         <div className="block lg:hidden py-2">
             <div className="flex items-center justify-between">
-                <p className="text-xl font-bold">Rent Nest</p>
+                <div className="flex items-center">
+                    <Logo />
+                    <Link href="/">
+                        <p className="text-xl font-bold">Rent Nest</p>
+                    </Link>
+
+                </div>
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button size="icon">
@@ -370,16 +378,17 @@ const MobileMenu = ({ menu, user, isLoggedIn, handleLogOut }: any) => {
 
                     <SheetContent className="overflow-y-auto lg:hidden">
                         <SheetHeader>
-                            <SheetTitle>
+                            <SheetTitle className="flex items-center">
+                                <Logo/>
                                 <p className="text-xl font-bold">Rent Nest</p>
                             </SheetTitle>
                         </SheetHeader>
 
-                        <div className="flex flex-col gap-6 p-4">
+                        <div className="flex flex-col gap-6 px-4">
                             <Accordion
                                 type="single"
                                 collapsible
-                                className="flex w-full flex-col gap-4"
+                                className="flex w-fit flex-col"
                             >
                                 {menu.map((item: MenuItem) => (
                                     <MobileMenuItem key={item.title} item={item} />

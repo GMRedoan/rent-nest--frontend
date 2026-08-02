@@ -18,6 +18,7 @@ import { FileX } from "lucide-react";
 import { useState } from "react";
 import RentalDetailsModal from "./rentalDetailsModal";
 import Animate from "@/components/reusable/Animate";
+import { createPayment } from "@/server/payment/payment.service";
 
 interface Props {
     requests: IMyRentalHistory[];
@@ -28,7 +29,6 @@ export default function RentalHistoryTable({
 }: Props) {
     const [selectedRequest, setSelectedRequest] =
         useState<IMyRentalHistory | null>(null);
-
     const [open, setOpen] = useState(false);
 
     const handleView = (request: IMyRentalHistory) => {
@@ -36,6 +36,16 @@ export default function RentalHistoryTable({
         setOpen(true);
     };
 
+    const handlePayment = async (
+        rentalRequestId: string
+    ) => {
+
+        await createPayment({
+            rentalRequestId,
+        });
+
+    };
+ 
     if(requests.length === 0){
         return (
             <div className="flex flex-col items-center py-20">
@@ -142,6 +152,9 @@ export default function RentalHistoryTable({
                                     </Button>
                                 ) : (
                                     <Button
+                                            onClick={() =>
+                                                handlePayment(request.id)
+                                            }
                                         size="sm"
                                         variant="secondary"
                                         disabled={

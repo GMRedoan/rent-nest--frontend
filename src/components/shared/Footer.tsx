@@ -7,9 +7,9 @@ import {
     MapPin,
     Phone,
 } from "lucide-react";
-
 import Animate from "@/components/reusable/Animate";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import Logo from "../reusable/logo";
 
 const exploreLinks = [
     {
@@ -71,21 +71,17 @@ const socials = [
 export default function Footer() {
     return (
         <footer className="border-t bg-muted/30">
-
             <Animate className="container mx-auto px-6 py-16">
-
-                <div className="grid gap-12 lg:grid-cols-4">
+                <div className="grid gap-12 grid-cols-2 lg:grid-cols-4">
 
                     {/* Brand */}
-
                     <div className="space-y-5">
 
                         <Link
                             href="/"
                             className="flex items-center gap-2 text-2xl font-bold"
                         >
-                            <Building2 className="h-7 w-7 text-primary" />
-
+                        <Logo/>
                             RentNest
                         </Link>
 
@@ -112,7 +108,6 @@ export default function Footer() {
                     </div>
 
                     {/* Explore */}
-
                     <div>
 
                         <h3 className="mb-5 text-lg font-semibold">
@@ -137,7 +132,6 @@ export default function Footer() {
                     </div>
 
                     {/* Company */}
-
                     <div>
 
                         <h3 className="mb-5 text-lg font-semibold">
@@ -162,7 +156,6 @@ export default function Footer() {
                     </div>
 
                     {/* Contact */}
-
                     <div>
 
                         <h3 className="mb-5 text-lg font-semibold">

@@ -35,7 +35,7 @@ export default function PropertyCard({ property }: Props) {
                     variant={
                         property.status === "AVAILABLE"
                             ? "default"
-                            : "secondary"
+                            : "link"
                     }
                 >
                     {property.status}
@@ -78,7 +78,7 @@ export default function PropertyCard({ property }: Props) {
                     <Calendar className="h-4 w-4" />
                     {format(new Date(property.createdAt ?? 0), "dd MMM yyyy")}
                 </div>
-
+ 
                 <Button asChild className="w-full">
                     <Link href={`/properties/${property.id}`}>
                         View Details

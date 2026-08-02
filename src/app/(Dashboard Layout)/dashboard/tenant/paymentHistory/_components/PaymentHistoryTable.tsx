@@ -66,7 +66,7 @@ export default function PaymentHistoryTable({
                                 className="max-w-45 truncate"
                                 title={payment.stripePaymentIntentId}
                             >
-                                {payment.stripePaymentIntentId.slice(0, 18)}...
+                                {payment?.stripePaymentIntentId?.slice(0, 18)}...
                             </TableCell>
 
                             <TableCell>
@@ -83,7 +83,7 @@ export default function PaymentHistoryTable({
                                             ? "default"
                                             : payment.status === "FAILED"
                                                 ? "destructive"
-                                                : "secondary"
+                                                : "pending"
                                     }
                                 >
                                     {payment.status}

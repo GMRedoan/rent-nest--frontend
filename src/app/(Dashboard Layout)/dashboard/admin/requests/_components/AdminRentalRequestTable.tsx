@@ -79,6 +79,7 @@ export default function AdminRentalRequestTable({
                                     <p className="font-medium">
                                         {request.tenant?.name}
                                     </p>
+                                    <p className="text-sm text-blue-400">{request.tenant?.email}</p>
                                     <p className="text-sm text-muted-foreground">
                                        Requested on: {format(
                                             new Date(request.createdAt ?? 0),

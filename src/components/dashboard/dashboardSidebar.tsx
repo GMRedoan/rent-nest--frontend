@@ -65,7 +65,7 @@ export default function DashboardSidebar() {
 
     return (
         <Sidebar collapsible="icon">
-            <SidebarHeader className="mb-12">
+            <SidebarHeader className="mb-10 mt-6">
                 <Link
                     href="/"
                     className="flex h-11.5 items-center justify-center transition-colors duration-300 hover:text-primary"
@@ -73,9 +73,12 @@ export default function DashboardSidebar() {
                     {collapsed ? (
                          <Logo/>
                     ) : (
-                        <span className="text-2xl font-bold">
-                            Rent Nest
-                        </span>
+                        <div className="flex items-center">
+                            <Logo/>
+                                <span className="text-2xl font-bold">
+                                    Rent Nest
+                                </span>
+                        </div>
                     )}
                 </Link>
                 {
@@ -87,38 +90,40 @@ export default function DashboardSidebar() {
             <SidebarContent>
                 <SidebarGroup>
 
-                    <SidebarMenu>
+                    <SidebarMenu className="space-y-1">
                         {items.map((item) => (
                             <SidebarMenuItem key={item.title}>
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
+                                { collapsed ? (
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <SidebarMenuButton
+                                                    asChild
+                                                    isActive={pathname === item.href}
+                                                >
+                                                    <Link href={item.href}>
+                                                        <item.icon />
+                                                        <span>{item.title}</span>
+                                                    </Link>
+                                                </SidebarMenuButton>
+                                            </TooltipTrigger>
 
-                                            <SidebarMenuButton
-                                                asChild
-                                                isActive={
-                                                    pathname === item.href
-                                                }
-                                            >
-                                                <Link href={item.href}>
-                                                    <item.icon />
-                                                    <span>
-                                                        {item.title}
-                                                    </span>
-                                                </Link>
-                                            </SidebarMenuButton>
-
-                                        </TooltipTrigger>
-
-                                        <TooltipContent
-                                            side="right"
-                                        >
-                                            {item.title}
-                                        </TooltipContent>
-
-                                    </Tooltip>
-
-                                </TooltipProvider>
+                                            <TooltipContent side="right">
+                                                {item.title}
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                ) : (
+                                    <SidebarMenuButton
+                                        asChild
+                                        isActive={pathname === item.href}
+                                    >
+                                        <Link href={item.href}>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                )}
                             </SidebarMenuItem>
                         ))}
                     </SidebarMenu>
@@ -133,13 +138,9 @@ export default function DashboardSidebar() {
                              <span>
                                 Logout
                             </span>
-
                         </SidebarMenuButton>
-
                     </SidebarMenuItem>
-
                 </SidebarMenu>
-
             </SidebarFooter>
         </Sidebar>
     );

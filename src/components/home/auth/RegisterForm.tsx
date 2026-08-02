@@ -72,7 +72,7 @@ export default function RegisterForm() {
         <section className="flex items-center justify-center bg-background px-6 py-10">
             <div className="relative">
                 <Link
-                    className="absolute bottom-80 -left-20 text-foreground hover:text-primary flex items-center"
+                    className="absolute bottom-100 md:bottom-80 md:-left-20 text-foreground hover:text-primary flex items-center"
                     href={"/"}>
                     <MdArrowBackIos />
                     Home

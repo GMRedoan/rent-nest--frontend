@@ -47,7 +47,7 @@ export default function PropertyManagementCard({
                             property.status === "AVAILABLE"
                                 ? "default"
                                 : property.status === "RENTED"
-                                    ? "secondary"
+                                    ? "link"
                                     : "destructive"
                         }
                     >

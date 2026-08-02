@@ -1,11 +1,25 @@
-import React from 'react';
+import { Loader2 } from "lucide-react";
 
-const loading = () => {
+export default function Loading() {
     return (
-        <div className='flex item-center justify-center minh-screen'>
-            loading...
+        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+
+            <div className="text-center">
+
+                <h2 className="text-xl font-semibold">
+                    Loading Dashboard
+                </h2>
+
+                <p className="mt-1 text-sm text-muted-foreground">
+                    Preparing your workspace...
+                </p>
+
+            </div>
+
         </div>
     );
-};
-
-export default loading;
+}

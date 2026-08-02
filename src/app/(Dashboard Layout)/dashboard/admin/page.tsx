@@ -40,10 +40,10 @@ export default async function AdminDashboardPage () {
                     />
                     <div className="absolute inset-0 bg-black/30" />
                     <div className="relative z-10 px-10 py-14 text-white">
-                        <p className="text-sm uppercase tracking-[0.3em] text-primary">
+                        <p className="text-sm uppercase tracking-[0.3em]">
                             Administration Panel
                         </p>
-                        <h1 className="mt-3 text-5xl font-bold">
+                        <h1 className="mt-3 text-4xl md:text-5xl font-bold">
                             Welcome Back, <span className="text-primary">Admin</span> 👋
                         </h1>
                         <p className="mt-5 max-w-2xl text-lg text-white/80">

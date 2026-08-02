@@ -103,7 +103,7 @@ export default function AdminUsersTable({ users }: Props) {
                     className="max-w-md"
                 />
 
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-primary/70">
                     {filteredUsers.length} users found
                 </p>
             </div>
@@ -218,7 +218,7 @@ export default function AdminUsersTable({ users }: Props) {
             {totalPages > 1 && (
                 <div className="mt-6 flex justify-center">
                     <Pagination>
-                        <PaginationContent>
+                        <PaginationContent className="space-x-2">
                             <PaginationItem>
                                 <PaginationPrevious
                                     onClick={() =>

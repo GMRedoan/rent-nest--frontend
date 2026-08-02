@@ -149,7 +149,7 @@ export default function PropertyRentalRequestTable({
                                 <div className="flex justify-end gap-2">
                                     <Button
                                         size="xs"
-                                        className="gap-1 py-4!"
+                                        className="gap-1"
                                         disabled={
                                             request.status === "APPROVED" || request.status === "REJECTED"
                                         }

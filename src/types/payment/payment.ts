@@ -18,3 +18,19 @@ export interface GetPaymentHistoryResponse {
         payments: IPaymentHistory[];
     };
 }
+
+export interface ICreatePayment {
+    rentalRequestId: string;
+}
+
+export interface CreatePaymentResponse {
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        payment: {
+            checkoutUrl: string;
+            paymentId: string;
+        };
+    };
+}

@@ -1,5 +1,5 @@
 export interface IRentalReq {
-    propertyId : string,
+    propertyId?: string,
     message? : string,
     startDate : Date,
     endDate : Date
