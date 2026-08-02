@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ban, ShieldCheck, Users } from "lucide-react";
 import {
     Table,
@@ -16,12 +17,24 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IUserProfile } from "@/types/auth/auth";
 import UpdateUserStatusModal from "./UpdateUserStatusModal";
+import Animate from "@/components/reusable/Animate";
+import { Input } from "@/components/ui/input";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Props {
     users: IUserProfile[];
 }
 
 export default function AdminUsersTable({ users }: Props) {
+    const [search, setSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState<IUserProfile | null>(null);
     const [open, setOpen] = useState(false);
     const handleOpen = (user: IUserProfile) => {
@@ -35,9 +48,32 @@ export default function AdminUsersTable({ users }: Props) {
         TENANT: 2,
     };
 
-    const sortedUsers = [...users].sort((a, b) => {
+    const filteredUsers = users.filter((user) => {
+        const keyword = search.toLowerCase();
+
+        return (
+            user.name.toLowerCase().includes(keyword) ||
+            user.email.toLowerCase().includes(keyword)
+        );
+    });
+
+    const sortedUsers = [...filteredUsers].sort((a, b) => {
         return roleOrder[a.role] - roleOrder[b.role];
     });
+
+    const ITEMS_PER_PAGE = 6;
+
+    const totalPages = Math.ceil(
+        sortedUsers.length / ITEMS_PER_PAGE
+    );
+
+    const paginatedUsers = sortedUsers.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search]);
 
     if (users.length === 0) {
         return (
@@ -57,7 +93,22 @@ export default function AdminUsersTable({ users }: Props) {
 
     return (
         <>
-            <div className="overflow-hidden rounded-2xl border bg-background">
+            {/* search */}
+            <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+                <Input
+                    placeholder="Search by name or email..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="max-w-md"
+                />
+
+                <p className="text-sm text-muted-foreground">
+                    {filteredUsers.length} users found
+                </p>
+            </div>
+
+            <Animate className="overflow-hidden rounded-2xl border bg-background">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -72,7 +123,7 @@ export default function AdminUsersTable({ users }: Props) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {sortedUsers.map((user) => (
+                        {paginatedUsers.map((user) => (
                             <TableRow key={user.id}>
 
                                 {/* User */}
@@ -154,15 +205,72 @@ export default function AdminUsersTable({ users }: Props) {
                             </TableRow>
                         ))}
                     </TableBody>
-
                 </Table>
-            </div>
+            </Animate>
             {selectedUser && (
                 <UpdateUserStatusModal
                     open={open}
                     onOpenChange={setOpen}
                     user={selectedUser}
                 />
+            )}
+            {/* pagination */}
+            {totalPages > 1 && (
+                <div className="mt-6 flex justify-center">
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    onClick={() =>
+                                        setCurrentPage((prev) =>
+                                            Math.max(prev - 1, 1)
+                                        )
+                                    }
+                                    className={
+                                        currentPage === 1
+                                            ? "pointer-events-none opacity-50"
+                                            : "cursor-pointer"
+                                    }
+                                />
+                            </PaginationItem>
+                            {Array.from(
+                                { length: totalPages },
+                                (_, index) => (
+                                    <PaginationItem key={index}>
+                                        <PaginationLink
+                                            isActive={
+                                                currentPage === index + 1
+                                            }
+                                            onClick={() =>
+                                                setCurrentPage(index + 1)
+                                            }
+                                            className="cursor-pointer"
+                                        >
+                                            {index + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                )
+                            )}
+                            <PaginationItem>
+                                <PaginationNext
+                                    onClick={() =>
+                                        setCurrentPage((prev) =>
+                                            Math.min(
+                                                prev + 1,
+                                                totalPages
+                                            )
+                                        )
+                                    }
+                                    className={
+                                        currentPage === totalPages
+                                            ? "pointer-events-none opacity-50"
+                                            : "cursor-pointer"
+                                    }
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                </div>
             )}
         </>
     );

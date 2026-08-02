@@ -102,3 +102,28 @@ export const updateRentalReqStatus = async (requestId: string, status: "APPROVED
         };
     }
 }
+
+export const allRentalRequest = async () => {
+    try {
+        const res = await serverFetch.get("/admin/rentals") as myRentalReqRes;
+
+        if (!res.success || !res.data) {
+            return {
+                success: false,
+                message: res.message,
+                data: null,
+            };
+        }
+        return {
+            success: true,
+            data: res.data.rentalRequests,
+        }
+    } catch (error) {
+        console.error("ALL RENTAL REQUEST ERROR:", error);
+        return {
+            success: false,
+            message: (error as Error).message ?? "Something went wrong.",
+            data: null,
+        };
+    }
+}

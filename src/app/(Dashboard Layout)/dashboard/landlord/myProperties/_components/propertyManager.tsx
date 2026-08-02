@@ -27,7 +27,7 @@ export default function PropertyManager({
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     return (
-        <>
+        <> 
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
                 <div>

@@ -21,7 +21,7 @@ export default function DashboardLayout({
             <DashboardSidebar />
 
             <SidebarInset>
-                <DashboardNavbar />
+                <DashboardNavbar/>
 
                 <main className="flex-1 p-6 bg-muted/30 min-h-screen">
                     {children}

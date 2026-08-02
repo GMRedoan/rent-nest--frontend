@@ -96,7 +96,7 @@ export default function PropertyManagementCard({
                         <CalendarDays className="h-4 w-4" />
                         Added{" "}
                         {format(
-                            new Date(property.createdAt),
+                            new Date(property.createdAt ?? 0),
                             "dd MMM yyyy"
                         )}
                     </div>

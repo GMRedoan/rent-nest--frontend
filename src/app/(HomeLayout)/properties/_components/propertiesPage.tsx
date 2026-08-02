@@ -25,7 +25,6 @@ export default function PropertiesPage({
     isLoading = false,
 }: Props) {
     const safeProperties = Array.isArray(properties) ? properties : [];
-
     const [search, setSearch] = useState("");
     const [type, setType] = useState("ALL");
     const [sort, setSort] = useState("newest");

@@ -131,7 +131,7 @@ export default function RentalDetailsModal({
                                     ? "default"
                                     : request.status === "REJECTED"
                                         ? "destructive"
-                                        : "secondary"
+                                        : "pending"
                             }
                         >
                             {request.status}

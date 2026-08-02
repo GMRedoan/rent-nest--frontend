@@ -13,3 +13,19 @@ export interface GetCategoriesResponse {
         categories: ICategory[];
     };
 }
+
+export interface createCategoryResponse{
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        category: ICategory[];
+    };
+
+}
+
+export interface deleteCategoryResponse{
+    success: boolean;
+    statusCode: number;
+    message: string;
+}

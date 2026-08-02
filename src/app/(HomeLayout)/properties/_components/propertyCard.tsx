@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { IProperty } from "@/types/property/property";
+import Animate from "@/components/reusable/Animate";
 
 interface Props {
     property: IProperty;
@@ -15,6 +16,7 @@ interface Props {
 
 export default function PropertyCard({ property }: Props) {
     return (
+        <Animate type="zoom">
         <Card className="group overflow-hidden rounded-2xl border-0 bg-background shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
 
             <div className="relative h-64 overflow-hidden">
@@ -74,7 +76,7 @@ export default function PropertyCard({ property }: Props) {
 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
-                    {format(new Date(property.createdAt), "dd MMM yyyy")}
+                    {format(new Date(property.createdAt ?? 0), "dd MMM yyyy")}
                 </div>
 
                 <Button asChild className="w-full">
@@ -85,5 +87,6 @@ export default function PropertyCard({ property }: Props) {
 
             </div>
         </Card>
+        </Animate>
     );
 }

@@ -20,9 +20,11 @@ export interface IMyRentalHistory {
     status: "PENDING" | "APPROVED" | "REJECTED";
     startDate: string;
     endDate: string | null;
+    createdAt?: string;
     property: {
         id: string;
         title: string;
+        status?: "AVAILABLE" | "RENTED" | "UNAVAILABLE";
         images: string[];
         propertyType: string;
         location: string;

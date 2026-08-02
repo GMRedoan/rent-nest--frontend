@@ -7,7 +7,7 @@ import {
     User,
     Settings,
 } from "lucide-react";
-import { MdPayment, MdRateReview, MdReviews } from "react-icons/md";
+import { MdCategory, MdPayment, MdRateReview, MdReviews } from "react-icons/md";
 
 export const sidebarItems = {
     ADMIN: [
@@ -23,13 +23,18 @@ export const sidebarItems = {
         },
         {
             title: "Properties",
-            href: "/dashboard/properties",
+            href: "/dashboard/admin/properties",
             icon: Building2,
         },
         {
             title: "Requests",
-            href: "/dashboard/requests",
+            href: "/dashboard/admin/requests",
             icon: ClipboardList,
+        },
+        {
+            title: "Categories",
+            href: "/dashboard/admin/categories",
+            icon: MdCategory,
         },
         {
             title: "Profile",

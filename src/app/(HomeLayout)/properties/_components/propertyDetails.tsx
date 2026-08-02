@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
     Calendar,
     MapPin,
@@ -12,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { IProperty } from "@/types/property/property";
 import RentalRequestModal from "@/components/Rental/ RentalRequestModal";
+import { useRouter } from "next/navigation";
 
 interface Props {
     property: IProperty;
@@ -20,21 +20,19 @@ interface Props {
 export default function PropertyDetails({
     property,
 }: Props) {
-
+    const router = useRouter();
 
     return (
         <section className="py-22">
             {/* Back */}
             <Button
-                variant="ghost"
-                asChild
+                variant="secondary"
                 className="mb-8"
+                onClick={() => router.back()}
             >
-                <Link href="/properties">
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Properties
-                </Link>
-            </Button>
+                     <ArrowLeft className="mr-2 h-4 w-4" />
+                    Go Back
+             </Button>
 
             <div className="grid gap-10 lg:grid-cols-2">
 
@@ -105,7 +103,7 @@ export default function PropertyDetails({
 
                             <Calendar className="h-4 w-4" />
 
-                            {new Date(property.createdAt)
+                            {new Date(property.createdAt ?? 0)
                                 .toLocaleDateString()
                             }
 
