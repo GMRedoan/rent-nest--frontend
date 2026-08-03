@@ -1,10 +1,6 @@
-import { getUser } from '@/server/user/user.service';
-import { IUserProfile } from '@/types/auth/auth';
 import ProfileCard from '../../tenant/profile/_components/ProfileCard';
 
 const page = async () => {
-    const res = await getUser();
-    const user = res.data;
     return (
         <div>
             <div className="mb-12">
@@ -17,7 +13,7 @@ const page = async () => {
                 </p>
             </div>
 
-            <ProfileCard user={user as IUserProfile} />
+            <ProfileCard/>
         </div>
     );
 };

@@ -7,7 +7,7 @@ import {
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Rent Nest | Dashboard",
+    title: "Dashboard",
     description: "A property rental app",
 };
 

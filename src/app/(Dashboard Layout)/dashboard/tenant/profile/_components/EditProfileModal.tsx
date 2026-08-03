@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -37,7 +38,7 @@ export default function EditProfileModal({
 }: Props) {
     const { refreshUser } = useAuth();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [preview, setPreview] = useState(user.profilePhoto ?? "");
+    const [preview, setPreview] = useState(user?.profilePhoto ?? "");
     const [uploading, setUploading] = useState(false);
 
     const {
@@ -72,16 +73,13 @@ export default function EditProfileModal({
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
         const file = e.target.files?.[0];
-
         if (!file) return;
-
         setSelectedFile(file);
-
         setPreview(URL.createObjectURL(file));
     };
 
     const onSubmit = async (payload: IUpdateProfile) => {
-        let imageUrl = user.profilePhoto;
+        let imageUrl = user?.profilePhoto;
 
         try {
             if (selectedFile) {
@@ -191,7 +189,7 @@ export default function EditProfileModal({
                         <Label>Email</Label>
 
                         <Input
-                            value={user.email}
+                            value={user?.email}
                             disabled
                         />
                     </div>

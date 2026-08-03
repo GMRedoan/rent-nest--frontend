@@ -1,5 +1,12 @@
 import { getProperties } from '@/server/properties/properties.service';
 import PropertiesPage from './_components/propertiesPage';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Properties | Rent Nest",
+    description: "Browse all available rental properties.",
+};
+
 
 const page = async () => {
     const result = await getProperties();

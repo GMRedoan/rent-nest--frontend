@@ -21,7 +21,7 @@ export default function HeroBanner() {
         }
     }, [searchParams]);
     return (
-        <section className="relative overflow-hidden py-16">
+        <section className="relative overflow-hidden pt-16">
 
             <div className="container mx-auto grid min-h-[88vh] items-center gap-16 py-16 lg:grid-cols-2">
 
@@ -69,7 +69,6 @@ export default function HeroBanner() {
                                 size="lg"
                                 variant="secondary"
                                 asChild
-                                className="py-5"
                             >
                                 <Link href="/register">
                                     Become a Landlord

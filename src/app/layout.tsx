@@ -16,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rent Nest",
-  description: "A property rental app",
+  title: {
+    default: "RentNest",
+    template: "%s | RentNest",
+  },
+  description:
+    "Find your perfect rental property with trusted landlords and secure online payments.",
 };
 
 export default async function RootLayout({

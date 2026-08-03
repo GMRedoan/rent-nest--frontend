@@ -1,5 +1,12 @@
 import { myRentalReq } from "@/server/rental/rental.service";
 import RentalHistoryTable from "./_components/RentalHistoryTable";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "My Requests | Dashboard",
+    description: "A property rental app",
+};
+
 
 const page = async () => {
     const result = await myRentalReq();

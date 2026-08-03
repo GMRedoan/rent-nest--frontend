@@ -58,7 +58,7 @@ export const login = async (payload: ILoginPayload) => {
             };
         }
 
-        const { accessToken } = result.data;
+        const { accessToken, refreshToken } = result.data;
 
         const cookieStore = await cookies();
 
@@ -70,11 +70,19 @@ export const login = async (payload: ILoginPayload) => {
             path: "/",
             maxAge: 7 * 24 * 60 * 60,
         });
+        cookieStore.set("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60 * 30,
+        });
+
 
         return {
             success: true,
             message: result.message,
-            accessToken,
+            accessToken, refreshToken
         };
 
     } catch (error) {

@@ -1,12 +1,13 @@
-import { getUser } from '@/server/user/user.service';
-import React from 'react';
+import { Metadata } from 'next';
 import ProfileCard from './_components/ProfileCard';
-import { IUserProfile } from '@/types/auth/auth';
 
-const page = async () => {
-    const res = await getUser();
-    const user = res.data;
-    return (
+export const metadata: Metadata = {
+    title: "My Profile | Dashboard",
+    description: "A property rental app",
+};
+
+const ProfilePage =  () => {
+     return (
         <div>
             <div className="mb-12">
                 <h1 className="text-3xl font-bold">
@@ -18,9 +19,9 @@ const page = async () => {
                 </p>
             </div>
 
-            <ProfileCard user={user as IUserProfile} />
+            <ProfileCard />
         </div>
     );
 };
 
-export default page;
+export default ProfilePage;

@@ -12,6 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Animate from "@/components/reusable/Animate";
 import { getUser } from "@/server/user/user.service";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Tenant Dashboard",
+    description: "A property rental app",
+};
 
 export default async function TenantDashboardPage() {
     const result = await getUser();
@@ -92,7 +98,6 @@ export default async function TenantDashboardPage() {
                                 <Button
                                     asChild
                                     variant="secondary"
-                                    className="py-5!"
                                 >
                                     <Link href="/dashboard/tenant/rental-history">
                                         My Requests

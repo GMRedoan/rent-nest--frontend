@@ -27,7 +27,7 @@ export function AuthProvider({
         const res = await getUser();
 
         if (res.success) {
-            setUser(res.data);
+            setUser(res?.data);
         } else {
             setUser(null);
         }

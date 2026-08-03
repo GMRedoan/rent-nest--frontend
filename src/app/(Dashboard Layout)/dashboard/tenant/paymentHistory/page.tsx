@@ -1,5 +1,12 @@
 import { myPaymentHistory } from '@/server/payment/payment.service';
 import PaymentHistoryTable from './_components/PaymentHistoryTable';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Payment History | Dashboard",
+    description: "A property rental app",
+};
+
 
 const page = async () => {
     const result = await myPaymentHistory();

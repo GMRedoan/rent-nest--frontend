@@ -10,22 +10,17 @@ import {
     Shield,
     User2,
 } from "lucide-react";
-import { IUserProfile } from "@/types/auth/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import EditProfileModal from "./EditProfileModal";
-import { useAuth } from "@/provider/AuthProvider";
 import Animate from "@/components/reusable/Animate";
+import { useAuth } from "@/provider/AuthProvider";
 
-interface Props {
-    user: IUserProfile;
-}
-
-export default function ProfileCard({ user }: Props) {
+export default function ProfileCard() {
+    const { user } = useAuth();    
     const [open, setOpen] = useState(false);
-    const { user: authUser } = useAuth();
-    if(!authUser )
+    if(!user )
     return null;
     return (
         <>
@@ -34,20 +29,20 @@ export default function ProfileCard({ user }: Props) {
                 <div className="flex items-start justify-between border-b p-8">
                     <div className="flex items-center gap-6">
                         <Avatar className="h-28 w-28 border-4 border-primary/10">
-                            <AvatarImage src={authUser?.profilePhoto ?? undefined} />
+                            <AvatarImage src={user?.profilePhoto ?? undefined} />
 
                             <AvatarFallback className="text-3xl font-bold">
-                                {authUser?.name?.charAt(0).toUpperCase()}
+                                {user?.name?.charAt(0).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
 
                         <div className="space-y-3">
                             <div className="flex items-center gap-2">
                                 <h2 className="text-3xl font-bold">
-                                    {authUser?.name}
+                                    {user?.name}
                                 </h2>
 
-                                {authUser?.status === "ACTIVE" && (
+                                {user?.status === "ACTIVE" && (
                                     <BadgeCheck className="h-5 w-5 text-primary" />
                                 )}
                             </div>
@@ -55,19 +50,19 @@ export default function ProfileCard({ user }: Props) {
                             <div>
                                 <Badge
                                     variant={
-                                        authUser?.status === "ACTIVE"
+                                        user?.status === "ACTIVE"
                                             ? "default"
                                             : "destructive"
                                     }
                                 >
-                                    {authUser?.status}
+                                    {user?.status}
                                 </Badge>
                             </div>
 
                             <p className="text-muted-foreground">
                                 Member since{" "}
                                 {format(
-                                    new Date(authUser?.createdAt),
+                                    new Date(user?.createdAt),
                                     "MMMM yyyy"
                                 )}
                             </p>
@@ -92,7 +87,7 @@ export default function ProfileCard({ user }: Props) {
                                 </p>
 
                                 <p className="font-medium">
-                                    {authUser?.email}
+                                    {user?.email}
                                 </p>
                             </div>
                         </div>
@@ -106,7 +101,7 @@ export default function ProfileCard({ user }: Props) {
                                 </p>
 
                                 <p className="font-medium">
-                                    {authUser?.phone || "Not added"}
+                                    {user?.phone || "Not added"}
                                 </p>
                             </div>
                         </div>
@@ -122,7 +117,7 @@ export default function ProfileCard({ user }: Props) {
                                 </p>
 
                                 <p className="font-medium">
-                                    {authUser?.role}
+                                    {user?.role}
                                 </p>
                             </div>
                         </div>
@@ -136,7 +131,7 @@ export default function ProfileCard({ user }: Props) {
                                 </p>
 
                                 <p className="leading-relaxed">
-                                    {authUser?.bio ||
+                                    {user?.bio ||
                                         "No bio has been added yet."}
                                 </p>
                             </div>

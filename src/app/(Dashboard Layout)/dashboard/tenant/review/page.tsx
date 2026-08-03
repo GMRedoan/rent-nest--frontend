@@ -1,5 +1,11 @@
 import { myRentalReq } from "@/server/rental/rental.service";
 import PropertyReviewCard from "./_components/propertyReviewCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "My Review | Dashboard",
+    description: "A property rental app",
+};
 
 export default async function ReviewPage() {
     const result = await myRentalReq();

@@ -42,7 +42,6 @@ export default function NotFound() {
                                 size="lg"
                                 variant="outline"
                                 onClick={() => router.back()}
-                                className="py-5!"
                             >
                                 <ArrowLeft className="mr-2 h-5 w-5" />
                                 Go Back
