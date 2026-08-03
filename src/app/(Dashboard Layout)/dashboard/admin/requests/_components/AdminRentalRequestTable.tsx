@@ -1,9 +1,8 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import Image from "next/image";
 import { format } from "date-fns";
 import { FileX } from "lucide-react";
-
 import {
     Table,
     TableBody,
@@ -12,10 +11,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-
 import { Badge } from "@/components/ui/badge";
 import { IMyRentalHistory } from "@/types/rental/rental";
 import Animate from "@/components/reusable/Animate";
+import { useEffect, useState } from "react";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
+
 
 interface Props {
     requests: IMyRentalHistory[];
@@ -24,6 +32,24 @@ interface Props {
 export default function AdminRentalRequestTable({
     requests,
 }: Props) {
+        const [currentPage, setCurrentPage] = useState(1);
+
+            const ITEMS_PER_PAGE = 8;
+        
+            const totalPages = Math.ceil(
+                requests.length / ITEMS_PER_PAGE
+            );
+        
+    const paginatedUsers = requests.slice(
+                (currentPage - 1) * ITEMS_PER_PAGE,
+                currentPage * ITEMS_PER_PAGE
+            );
+            useEffect(() => {
+                setCurrentPage(1);
+            }, []);
+        
+    
+
     if (requests.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center rounded-2xl border py-20">
@@ -41,6 +67,7 @@ export default function AdminRentalRequestTable({
     }
 
     return (
+        <>
         <Animate className="overflow-hidden rounded-2xl border bg-background">
             <Table>
                 <TableHeader>
@@ -54,7 +81,7 @@ export default function AdminRentalRequestTable({
                 </TableHeader>
                 <TableBody>
 
-                    {requests.map((request) => (
+                    {paginatedUsers.map((request) => (
                         <TableRow key={request.id}>
 
                             {/* Property */}
@@ -144,5 +171,64 @@ export default function AdminRentalRequestTable({
                 </TableBody>
             </Table>
         </Animate>
+            {/* pagination */}
+            {totalPages > 1 && (
+                <div className="mt-6 flex justify-center">
+                    <Pagination>
+                        <PaginationContent className="space-x-2">
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    onClick={() =>
+                                        setCurrentPage((prev) =>
+                                            Math.max(prev - 1, 1)
+                                        )
+                                    }
+                                    className={
+                                        currentPage === 1
+                                            ? "pointer-events-none opacity-50"
+                                            : "cursor-pointer"
+                                    }
+                                />
+                            </PaginationItem>
+                            {Array.from(
+                                { length: totalPages },
+                                (_, index) => (
+                                    <PaginationItem key={index}>
+                                        <PaginationLink
+                                            isActive={
+                                                currentPage === index + 1
+                                            }
+                                            onClick={() =>
+                                                setCurrentPage(index + 1)
+                                            }
+                                            className="cursor-pointer"
+                                        >
+                                            {index + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                )
+                            )}
+                            <PaginationItem>
+                                <PaginationNext
+                                    onClick={() =>
+                                        setCurrentPage((prev) =>
+                                            Math.min(
+                                                prev + 1,
+                                                totalPages
+                                            )
+                                        )
+                                    }
+                                    className={
+                                        currentPage === totalPages
+                                            ? "pointer-events-none opacity-50"
+                                            : "cursor-pointer"
+                                    }
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                </div>
+            )}
+        </>
     );
 }
