@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import ProfileCard from '../../tenant/profile/_components/ProfileCard';
+
+export const metadata: Metadata = {
+    title: "Profile | Dashboard",
+    description: "A property rental app",
+};
 
 const page = async () => {
     return (

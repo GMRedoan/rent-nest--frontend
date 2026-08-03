@@ -14,8 +14,14 @@ import {
     Clock3,
     ArrowRight,
 } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Admin Dashboard | Rent Nest",
+    description: "A property rental app",
+};
 
 export default async function AdminDashboardPage () {
     const user = await allUsers();

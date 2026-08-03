@@ -100,7 +100,6 @@ const AddPropertyModal = ({
             };
 
             const result = await createProperty(payload);
-
             if (result.success) {
                 Toast({
                     icon: "success",

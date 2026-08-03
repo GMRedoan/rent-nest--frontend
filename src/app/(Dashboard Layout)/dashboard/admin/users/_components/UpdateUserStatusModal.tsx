@@ -138,7 +138,6 @@ export default function UpdateUserStatusModal({
                         variant="destructive"
                         onClick={() => onOpenChange(false)}
                         disabled={isPending}
-                        className="p-5"
                     >
                         Cancel
                     </Button>

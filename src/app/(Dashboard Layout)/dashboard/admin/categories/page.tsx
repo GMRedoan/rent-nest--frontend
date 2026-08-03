@@ -1,6 +1,12 @@
 import { getCategories } from '@/server/categories/categories.service';
 import CategoryTable from './_components/CategoryTable';
 import AddCategoryButton from './_components/AddCategoryButton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Categories | Dashboard",
+    description: "A property rental app",
+};
 
 const page = async  () => {
     const result = await getCategories();

@@ -43,7 +43,7 @@ const features = [
         icon: Headset,
         title: "Reliable Support",
         description:
-            "Our platform is designed to provide a smooth experience for both tenants and landlords.",
+            "Our platform is designed to provide a smooth experience for users.",
     },
 ];
 

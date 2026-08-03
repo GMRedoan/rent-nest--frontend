@@ -50,27 +50,26 @@ export default function PropertyDetails({
                         />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-
-                        {property.images
-                            .slice(1)
-                            .map((image, index) => (
-
+                        {property.images.length > 1 ? (
+                            property.images.slice(1).map((image, index) => (
                                 <div
                                     key={index}
                                     className="relative h-40 overflow-hidden rounded-xl"
                                 >
                                     <Image
                                         src={image}
-                                        alt="Property image"
+                                        alt={`Property image ${index + 2}`}
                                         fill
                                         className="object-cover"
                                     />
-
                                 </div>
-
-                            ))}
-                    </div>
-                </div>
+                            ))
+                        ) : (
+                            <div className="col-span-2 flex h-40 items-center justify-center rounded-xl border border-dashed text-gray-500">
+                                No additional images available.
+                            </div>
+                        )}
+                    </div>                </div>
                 {/* Information */}
 
                 <Card className="space-y-6 rounded-3xl p-8">

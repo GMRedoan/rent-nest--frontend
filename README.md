@@ -18,7 +18,7 @@ RentNest is a full-stack property rental platform that connects **tenants**, **l
 - Role-based access control (Admin, Landlord, Tenant)
 - Protected routes
 - Profile management
-- Image upload with ImgBB
+- Image upload with Cloudinary
 
 ---
 
@@ -103,7 +103,7 @@ RentNest is a full-stack property rental platform that connects **tenants**, **l
 - PostgreSQL
 - JWT Authentication
 - Stripe API
-- ImgBB API
+- Cloudinary API
 
 ---
 
@@ -135,7 +135,8 @@ Create a `.env` file:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
-NEXT_PUBLIC_IMGBB_API_KEY=YOUR_IMGBB_KEY
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloude_name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_cloude_preset
 ```
 
 ---
@@ -190,7 +191,7 @@ npm run dev
 
 ## 📸 Image Upload
 
-Property images and profile photos are uploaded through **ImgBB** before being saved in the database.
+Property images and profile photos are uploaded through **Cloudinary** before being saved in the database.
 
 ---
 

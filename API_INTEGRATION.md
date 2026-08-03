@@ -103,7 +103,7 @@ This document maps the frontend pages/components to the backend API endpoints us
 
 | Utility | Purpose |
 |---------|---------|
-| `uploadImage()` | Uploads images to ImgBB and returns a public URL |
+| `uploadImage()` | Uploads images to Cloudinary and returns a public URL |
 
 Used in:
 - Edit Profile

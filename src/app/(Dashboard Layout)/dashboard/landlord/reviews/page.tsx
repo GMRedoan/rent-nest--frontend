@@ -1,5 +1,11 @@
 import { getPropertyReviews } from "@/server/review/review.service";
 import LandlordReviewCard from "./_components/landlordReviewCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Reviews | Rent Nest",
+    description: "A property rental app",
+};
 
 export default async function ReviewsPage() {
     const result = await getPropertyReviews();

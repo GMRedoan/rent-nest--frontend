@@ -51,7 +51,7 @@ export default function ContactSection() {
                                 smooth and hassle-free.
                             </p>
 
-                            <div className="mt-10 space-y-8">
+                            <div className="mt-10 space-y-4">
                                 <div className="flex items-start gap-4">
                                     <div className="rounded-xl bg-primary p-3">
                                         <MapPin className="h-6 w-6" />
@@ -62,7 +62,7 @@ export default function ContactSection() {
                                             Office Address
                                         </h4>
 
-                                        <p className="mt-1 text-muted-foreground">
+                                        <p className="mt-1 text-muted-foreground text-xs">
                                             Barishal, Bangladesh
                                         </p>
                                     </div>
@@ -78,7 +78,7 @@ export default function ContactSection() {
                                             Email Address
                                         </h4>
 
-                                        <p className="mt-1 text-muted-foreground">
+                                        <p className="mt-1 text-muted-foreground text-xs">
                                             support@rentnest.com
                                         </p>
                                     </div>
@@ -94,7 +94,7 @@ export default function ContactSection() {
                                             Phone Number
                                         </h4>
 
-                                        <p className="mt-1 text-muted-foreground">
+                                        <p className="mt-1 text-muted-foreground text-xs">
                                             +880 1712-345678
                                         </p>
                                     </div>

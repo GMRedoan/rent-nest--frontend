@@ -1,5 +1,12 @@
 import { allUsers } from '@/server/user/user.service';
 import AdminUsersTable from './_components/AdminUsersTable';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Users | Dashboard",
+    description: "A property rental app",
+};
+
 
 const page = async () => {
     const result = await allUsers();

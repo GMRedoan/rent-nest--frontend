@@ -16,7 +16,7 @@ const steps = [
     },
     {
         icon: Send,
-        title: "Send Rental Request",
+        title: "Send Request",
         description:
             "Choose your preferred property and submit a rental request directly to the landlord.",
     },
@@ -24,7 +24,7 @@ const steps = [
         icon: BadgeCheck,
         title: "Get Approved",
         description:
-            "The landlord reviews your request and approves it if the property is available.",
+            "The landlord reviews your request and approves it if the property is available and active.",
     },
     {
         icon: CreditCard,

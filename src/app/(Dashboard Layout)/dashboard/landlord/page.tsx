@@ -7,7 +7,13 @@ import { myPropertiesRentalReq } from '@/server/rental/rental.service';
 import { getPropertyReviews } from '@/server/review/review.service';
 import { getUser } from '@/server/user/user.service';
 import {  BadgeCheck, BadgeDollarSign, BellRing, Building2, Camera, Clock3, Home,  Mail,  MessageSquare,  Plus,  Star, Wallet } from 'lucide-react';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+    title: "Landlord Dashboard | Rent Nest",
+    description: "A property rental app",
+};
 
 const LandlordDashboard = async () => {
     const  user = await getUser();

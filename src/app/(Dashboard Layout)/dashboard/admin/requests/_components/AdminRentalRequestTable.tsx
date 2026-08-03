@@ -48,7 +48,7 @@ export default function AdminRentalRequestTable({
                         <TableHead>Property</TableHead>
                         <TableHead>Tenant</TableHead>
                         <TableHead>Rental Period</TableHead>
-                        <TableHead>Property</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead>Request</TableHead>
                     </TableRow>
                 </TableHeader>

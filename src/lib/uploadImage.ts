@@ -1,12 +1,14 @@
-export const uploadImage = async (
-    file: File
-): Promise<string> => {
+export const uploadImage = async (file: File): Promise<string> => {
     const formData = new FormData();
 
-    formData.append("image", file);
+    formData.append("file", file);
+    formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!
+    );
 
     const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
         {
             method: "POST",
             body: formData,
@@ -15,9 +17,9 @@ export const uploadImage = async (
 
     const data = await res.json();
 
-    if (!data.success) {
-        throw new Error("Image upload failed");
+    if (!res.ok) {
+        throw new Error(data.error?.message || "Image upload failed");
     }
 
-    return data.data.url;
+    return data.secure_url;
 };

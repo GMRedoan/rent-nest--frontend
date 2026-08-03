@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/provider/AuthProvider";
 import Providers from "@/provider/Providers";
 import { getUser } from "@/server/user/user.service";
+import { Inter } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  display: "swap",
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+ 
 export const metadata: Metadata = {
   title: {
     default: "RentNest",
@@ -34,7 +29,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.className} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>
