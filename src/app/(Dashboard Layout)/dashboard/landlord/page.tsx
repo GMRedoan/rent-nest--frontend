@@ -171,7 +171,7 @@ const LandlordDashboard = async () => {
                                 Follow these simple steps to manage your rentals.
                             </p>
 
-                            <div className="space-y-2">
+                            <div className="space-y-[18px]">
 
                                 {[
                                     {

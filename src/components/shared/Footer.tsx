@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-    Building2,
     Mail,
     MapPin,
     Phone,
@@ -18,11 +17,11 @@ const exploreLinks = [
     },
     {
         label: "Apartments",
-        href: "/properties?type=apartment",
+        href: "#",
     },
     {
         label: "Houses",
-        href: "/properties?type=house",
+        href: "#",
     },
     {
         label: "Become a Landlord",
@@ -37,15 +36,15 @@ const companyLinks = [
     },
     {
         label: "Contact",
-        href: "/contact",
+        href: "#",
     },
     {
         label: "FAQ",
-        href: "/faq",
+        href: "#",
     },
     {
         label: "Privacy Policy",
-        href: "/privacy-policy",
+        href: "#",
     },
 ];
 
@@ -200,21 +199,21 @@ export default function Footer() {
                     <div className="flex gap-6">
 
                         <Link
-                            href="/terms"
+                            href="#"
                             className="hover:text-primary"
                         >
                             Terms
                         </Link>
 
                         <Link
-                            href="/privacy-policy"
+                            href="#"
                             className="hover:text-primary"
                         >
                             Privacy
                         </Link>
 
                         <Link
-                            href="/cookies"
+                            href="#"
                             className="hover:text-primary"
                         >
                             Cookies

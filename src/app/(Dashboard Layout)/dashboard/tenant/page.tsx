@@ -46,7 +46,7 @@ export default async function TenantDashboardPage() {
             title: "Reviews",
             description: "Share your rental experience.",
             icon: Star,
-            href: "/dashboard/tenant/reviews",
+            href: "/dashboard/tenant/review",
         },
     ];
 
@@ -99,9 +99,9 @@ export default async function TenantDashboardPage() {
                                     asChild
                                     variant="secondary"
                                 >
-                                    <Link href="/dashboard/tenant/rental-history">
+                                    <p>
                                         My Requests
-                                    </Link>
+                                    </p>
                                 </Button>
                             </div>
                         </div>

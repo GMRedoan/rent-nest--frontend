@@ -90,13 +90,6 @@ export default function RentalHistoryTable({
 
                                 <div className="flex items-center gap-3">
 
-                                    <Image
-                                        src={request.property.images[0]}
-                                        alt={request.property.title}
-                                        width={50}
-                                        height={10}
-                                        className="rounded-md object-cover h-10"
-                                    />
                                     <div>
                                         <p className="font-semibold">
                                             {request.property.title}

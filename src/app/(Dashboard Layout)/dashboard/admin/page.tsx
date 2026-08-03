@@ -231,7 +231,7 @@ export default async function AdminDashboardPage () {
                     <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
                         {[
                             "Review new rental requests daily.",
-                            "Keep categories organized and up-to-date.",
+                            "Keep categories organized",
                             "Monitor suspicious user activity.",
                             "Regularly verify listed properties.",
                         ].map((tip, index) => (
