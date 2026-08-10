@@ -1,4 +1,5 @@
 import DashboardCard from '@/components/dashboard/DashboardCard';
+import LandlordCharts from '@/components/dashboard/LandlordCharts';
 import Animate from '@/components/reusable/Animate';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,9 +7,10 @@ import { getMyProperties } from '@/server/properties/properties.service';
 import { myPropertiesRentalReq } from '@/server/rental/rental.service';
 import { getPropertyReviews } from '@/server/review/review.service';
 import { getUser } from '@/server/user/user.service';
-import {  BadgeCheck, BadgeDollarSign, BellRing, Building2, Camera, Clock3, Home,  Mail,  MessageSquare,  Plus,  Star, Wallet } from 'lucide-react';
+import { BadgeCheck, BadgeDollarSign, BellRing, Building2, Camera, Clock3, Home, Mail, MessageSquare, Plus, Star, Wallet } from 'lucide-react';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import PropertyRentalRequestTable from './requests/_components/PropertyRentalRequestTable';
 
 export const metadata: Metadata = {
     title: "Landlord Dashboard | Rent Nest",
@@ -16,12 +18,73 @@ export const metadata: Metadata = {
 };
 
 const LandlordDashboard = async () => {
-    const  user = await getUser();
+    const user = await getUser();
     const properties = await getMyProperties();
     const rentalRequests = await myPropertiesRentalReq();
     const reviews = await getPropertyReviews();
     const pendingRequestsCount = rentalRequests.success && rentalRequests.data ? rentalRequests.data.filter(req => req.status === 'PENDING').length : 0;
     const availablePropertiesCount = properties.success && properties.data ? properties.data.filter(property => property.status === 'AVAILABLE').length : 0;
+
+    const propertyStatusData = [
+        {
+            status: "Available",
+            count:
+                properties.data?.filter(
+                    (property) => property.status === "AVAILABLE"
+                ).length || 0,
+        },
+        {
+            status: "Rented",
+            count:
+                properties.data?.filter(
+                    (property) => property.status === "RENTED"
+                ).length || 0,
+        },
+        {
+            status: "Inactive",
+            count:
+                properties.data?.filter(
+                    (property) => property.status === "INACTIVE"
+                ).length || 0,
+        },
+    ];
+
+    const requestData = (() => {
+        const requests = rentalRequests.data || [];
+
+        const months = [];
+
+        for (let i = 5; i >= 0; i--) {
+            const date = new Date();
+
+            date.setMonth(date.getMonth() - i);
+
+            months.push({
+                month: date.toLocaleString("en-US", {
+                    month: "short",
+                }),
+                year: date.getFullYear(),
+                monthNumber: date.getMonth(),
+            });
+        }
+
+        return months.map((month) => {
+            const count = requests.filter((request) => {
+                const requestDate = new Date(request.createdAt || 0);
+
+                return (
+                    requestDate.getMonth() === month.monthNumber &&
+                    requestDate.getFullYear() === month.year
+                );
+            }).length;
+
+            return {
+                month: month.month,
+                requests: count,
+            };
+        });
+    })();
+
     return (
         <div>
             <Animate type="fadeDown">
@@ -87,8 +150,27 @@ const LandlordDashboard = async () => {
                         value={`${reviews.data?.length || 0}`}
                         icon={<Star />}
                     />
-                </Animate>                
+                </Animate>
             </div>
+            {/* charts */}
+            <Animate type="fadeUp" delay={0.25}>
+                <LandlordCharts
+                    propertyStatusData={propertyStatusData}
+                    requestData={requestData}
+                />
+            </Animate>
+            {/* data table */}
+            <Animate type="fadeUp" delay={0.3}>
+                        <div className="py-8">
+                            <h2 className="text-2xl font-bold">
+                                Recent Rental Requests
+                            </h2>
+
+                         </div>
+
+                        <PropertyRentalRequestTable requests={rentalRequests.data?.slice(0, 5) ?? []} />
+            </Animate>
+
             <Animate type="fadeUp" delay={0.2}>
                 <section>
                     <div className="py-8">
@@ -161,7 +243,7 @@ const LandlordDashboard = async () => {
 
                 {/* Workflow */}
 
-                <Animate type="fadeLeft">
+                <Animate type="zoom">
                     <Card className="rounded-3xl">
                         <CardContent className="p-8">
                             <h2 className="text-2xl font-bold">
@@ -226,7 +308,7 @@ const LandlordDashboard = async () => {
 
                 {/* Reminder */}
 
-                <Animate type="fadeRight">
+                <Animate type="zoom">
                     <Card className="rounded-3xl border-primary/20 bg-primary/5">
                         <CardContent className="p-8">
 
@@ -260,13 +342,10 @@ const LandlordDashboard = async () => {
                                     <li>✔ Reply to tenant inquiries.</li>
 
                                 </ul>
-
                             </div>
-
                         </CardContent>
                     </Card>
                 </Animate>
-
             </div>
         </div>
     );

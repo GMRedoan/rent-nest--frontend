@@ -70,6 +70,7 @@ const defaultMenu: MenuItem[] = [
     { title: "Home", url: "/" },
     { title: "Properties", url: "/properties" },
     { title: "About", url: "/about" },
+    { title: "Privacy", url: "/privacy-policy" },
 ];
 
 const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
