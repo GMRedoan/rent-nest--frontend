@@ -15,13 +15,13 @@ export function usePagination<T>({
     resetKey,
 }: UsePaginationProps<T>) {
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(data.length / itemsPerPage);
+    const totalPages = Math.ceil(data?.length / itemsPerPage);
 
     const paginatedData = useMemo(() => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
 
-        return data.slice(startIndex, endIndex);
+        return data?.slice(startIndex, endIndex);
     }, [data, currentPage, itemsPerPage]);
 
     useEffect(() => {

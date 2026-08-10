@@ -16,7 +16,8 @@ import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { MdArrowBackIos } from "react-icons/md";
-import { Loader2 } from "lucide-react";
+import { Home, Loader2, ShieldCheck, UserRound } from "lucide-react";
+import { demoCredentials } from "./_components/demoCredentials";
 
 type LoginData = z.infer<typeof loginSchema>;
 
@@ -25,7 +26,7 @@ export default function LoginForm() {
     const { refreshUser } = useAuth();
     const {
         register,
-        handleSubmit,
+        handleSubmit, 
         reset,
         formState: { errors, isSubmitting },
     } = useForm<LoginData>({
@@ -56,6 +57,19 @@ export default function LoginForm() {
             console.error("LOGIN ERROR:", error);
             return error;
         }
+    };
+
+    const handleDemoLogin = async (
+        role: "admin" | "landlord" | "tenant"
+    ) => {
+        const credentials = demoCredentials[role];
+
+        reset({
+            email: credentials.email,
+            password: credentials.password,
+        });
+
+        await onSubmit(credentials);
     };
 
     return (
@@ -135,6 +149,54 @@ export default function LoginForm() {
                                 : "Login"}
                         </Button>
                     </form>
+
+                    {/* Demo login */}
+                    <div className="relative my-6">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t" />
+                        </div>
+
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-background px-3 text-muted-foreground">
+                                Demo Accounts Login
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            disabled={isSubmitting}
+                            onClick={() => handleDemoLogin("admin")}
+                            className="h-auto flex-col gap-1 py-3"
+                        >
+                            <ShieldCheck className="h-4 w-4 text-primary" />
+                            <span className="text-xs">Admin</span>
+                        </Button>
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            disabled={isSubmitting}
+                            onClick={() => handleDemoLogin("landlord")}
+                            className="h-auto flex-col gap-1 py-3"
+                        >
+                            <Home className="h-4 w-4 text-primary" />
+                            <span className="text-xs">Landlord</span>
+                        </Button>
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            disabled={isSubmitting}
+                            onClick={() => handleDemoLogin("tenant")}
+                            className="h-auto flex-col gap-1 py-3"
+                        >
+                            <UserRound className="h-4 w-4 text-primary" />
+                            <span className="text-xs">Tenant</span>
+                        </Button>
+                    </div>
 
                     <div className="text-center text-sm text-muted-foreground">
                         Don not have an account?{" "}

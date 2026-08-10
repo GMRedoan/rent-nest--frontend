@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { format } from "date-fns";
 import Link from "next/link";
 import {
@@ -19,6 +18,8 @@ import { useState } from "react";
 import RentalDetailsModal from "./rentalDetailsModal";
 import Animate from "@/components/reusable/Animate";
 import { createPayment } from "@/server/payment/payment.service";
+import { usePagination } from "@/hooks/usePagination";
+import Pagination from "@/components/reusable/Pagination";
 
 interface Props {
     requests: IMyRentalHistory[];
@@ -45,8 +46,18 @@ export default function RentalHistoryTable({
         });
 
     };
+
+        const {
+            currentPage,
+            setCurrentPage,
+            totalPages,
+            paginatedData: paginatedRequests,
+        } = usePagination({
+            data: requests,
+            itemsPerPage: 10,
+        });
  
-    if(requests.length === 0){
+    if (paginatedRequests.length === 0){
         return (
             <div className="flex flex-col items-center py-20">
                 <FileX className="mb-4 h-14 w-14 text-muted-foreground" />
@@ -68,6 +79,7 @@ export default function RentalHistoryTable({
         )
     }
     return (
+        <>
         <Animate className="rounded-2xl border bg-background">
             <Table>
                 <TableHeader>
@@ -81,7 +93,7 @@ export default function RentalHistoryTable({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {requests.map((request) => (
+                        {paginatedRequests.map((request) => (
                         <TableRow key={request.id}>
 
                             {/* Property */}
@@ -171,11 +183,19 @@ export default function RentalHistoryTable({
                     ))}
                 </TableBody>
             </Table>
+        </Animate>
+                    {/* pagination */}
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                    />
+
             <RentalDetailsModal
                 open={open}
                 onOpenChange={setOpen}
                 request={selectedRequest}
             />
-        </Animate>
+        </>
     );
 }

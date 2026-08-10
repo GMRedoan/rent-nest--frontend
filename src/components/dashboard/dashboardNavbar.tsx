@@ -15,6 +15,7 @@ import { logoutAction } from "@/server/auth/auth.service";
 import Swal from "sweetalert2";
 import { SidebarTrigger } from "../ui/sidebar";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function DashboardNavbar() {
     const { user, setUser } = useAuth();
@@ -64,7 +65,6 @@ export default function DashboardNavbar() {
                 </div>
              </div>
 
-
             {/* Right */}
             <div className="flex items-center gap-6">
                 <ThemeToggle />
@@ -89,7 +89,7 @@ export default function DashboardNavbar() {
                         <div
                             className="group mb-4 flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-foreground/3 p-3 transition-all hover:border-primary/20 hover:bg-foreground/5"
                         >
-                            <div className="flex items-center gap-3 min-w-0">
+                            <Link href={`/dashboard/${user?.role.toLocaleLowerCase()}/profile`} className="flex items-center gap-3 min-w-0">
                                 <Avatar className="h-11 w-11 border">
                                     <AvatarImage src={user?.profilePhoto ?? undefined} alt={user?.name || "User"} />
                                     <AvatarFallback className="font-semibold">
@@ -113,7 +113,7 @@ export default function DashboardNavbar() {
                                         {user?.email}
                                     </p>
                                 </div>
-                            </div>
+                            </Link>
 
                             <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground" />
                         </div>

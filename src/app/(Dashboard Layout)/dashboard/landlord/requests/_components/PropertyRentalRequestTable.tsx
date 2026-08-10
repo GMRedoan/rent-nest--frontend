@@ -16,6 +16,8 @@ import { FileX, CheckCircle2, XCircle } from "lucide-react";
 import Animate from "@/components/reusable/Animate";
 import { useState } from "react";
 import UpdateRentalStatusModal from "./UpdateRentalStatusModal";
+import { usePagination } from "@/hooks/usePagination";
+import Pagination from "@/components/reusable/Pagination";
 
 interface Props {
     requests: IMyRentalHistory[];
@@ -24,16 +26,25 @@ interface Props {
 export default function PropertyRentalRequestTable({
     requests,
 }: Props) {
+    const [open, setOpen] = useState(false);
     const [selectedRequest, setSelectedRequest] =
         useState<IMyRentalHistory | null>(null);
-
     const [action, setAction] = useState<
         "APPROVED" | "REJECTED" | null
     >(null);
 
-    const [open, setOpen] = useState(false);
+    const {
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedData: paginatedRequests,
+    } = usePagination({
+        data: requests,
+        itemsPerPage: 10,
+        // resetKey: search,
+    });
 
-    if (requests.length === 0) {
+    if (paginatedRequests.length === 0) {
         return (
             <div className="flex flex-col items-center py-20">
                 <FileX className="mb-4 h-14 w-14 text-muted-foreground" />
@@ -50,6 +61,7 @@ export default function PropertyRentalRequestTable({
     }
 
     return (
+        <>
         <Animate className="overflow-hidden rounded-2xl border bg-background">
             <Table>
                 <TableHeader>
@@ -67,7 +79,7 @@ export default function PropertyRentalRequestTable({
                 </TableHeader>
 
                 <TableBody>
-                    {requests.map((request) => (
+                    {paginatedRequests.map((request) => (
                         <TableRow key={request.id}>
                             {/* Property */}
 
@@ -185,6 +197,14 @@ export default function PropertyRentalRequestTable({
                     ))}
                 </TableBody>
             </Table>
+        </Animate>
+            {/* pagination */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
+
             {selectedRequest && action && (
                 <UpdateRentalStatusModal
                     open={open}
@@ -193,6 +213,6 @@ export default function PropertyRentalRequestTable({
                     action={action}
                 />
             )}
-        </Animate>
+        </>
     );
 }

@@ -34,8 +34,8 @@ export default function AdminRentalRequestTable({
         itemsPerPage: 10,
         // resetKey: search,
     });
-
-    if (requests.length === 0) {
+ 
+    if (requests?.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center rounded-2xl border py-20">
                 <FileX className="mb-4 h-14 w-14 text-muted-foreground" />
@@ -65,7 +65,7 @@ export default function AdminRentalRequestTable({
                     </TableHeader>
                     <TableBody>
 
-                        {paginatedRequests.map((request) => (
+                        {paginatedRequests?.map((request) => (
                             <TableRow key={request.id}>
 
                                 {/* Property */}
