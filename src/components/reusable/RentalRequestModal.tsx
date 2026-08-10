@@ -22,7 +22,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { Toast } from "../reusable/toast";
+import { Toast } from "./toast";
 import { IProperty } from "@/types/property/property";
 
 interface Props {
@@ -49,7 +49,7 @@ export default function RentalRequestModal({ property }: Props) {
     const onSubmit = async (data: IRentalReq) => {
         const payload = {
             ...data,
-            propertyId : property.id,
+            propertyId: property.id,
         };
         const result = await createRentalReq(payload);
         if (result.success) {
@@ -71,16 +71,16 @@ export default function RentalRequestModal({ property }: Props) {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button
-                        size="lg"
-                        className="w-full"
-                        disabled={property.status === "RENTED"}
-                    >
-                        {property.status === "RENTED"
-                            ? "Already Rented"
-                            : "Request Rental"
-                        }
+                    size="lg"
+                    className="w-full"
+                    disabled={property.status === "RENTED"}
+                >
+                    {property.status === "RENTED"
+                        ? "Already Rented"
+                        : "Request Rental"
+                    }
 
-                    </Button>
+                </Button>
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-lg p-8">
@@ -98,7 +98,7 @@ export default function RentalRequestModal({ property }: Props) {
                     className="space-y-5"
                 >
                     {/* Message */}
-                    
+
                     <div >
                         <label className="text-sm font-medium">Message (optional)</label>
                         <Textarea

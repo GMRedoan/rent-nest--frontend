@@ -29,7 +29,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.className} h-full antialiased`}
+      className={`${inter.className} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>

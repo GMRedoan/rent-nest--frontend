@@ -31,7 +31,7 @@ export default function AboutSection() {
     ];
 
     return (
-        <section className="py-24 md:py-34">
+        <section id="about" className="py-24 md:py-34">
             <div className="container">
                 <div className="grid items-center gap-14 lg:grid-cols-2">
                     {/* Left */}

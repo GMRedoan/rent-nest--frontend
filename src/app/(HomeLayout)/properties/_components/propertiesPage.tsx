@@ -14,6 +14,8 @@ import { SearchX } from "lucide-react";
 import { IProperty } from "@/types/property/property";
 import PropertyCard from "./propertyCard";
 import PropertyGridSkeleton from "./PropertyGridSkeleton";
+import { usePagination } from "@/hooks/usePagination";
+import Pagination from "@/components/reusable/Pagination";
 
 interface Props {
     properties: IProperty[];
@@ -71,12 +73,25 @@ export default function PropertiesPage({
         return data;
     }, [safeProperties, search, type, sort]);
 
+    // pagination
+    const {
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedData: paginatedProperties,
+    } = usePagination({
+        data: filtered,
+        itemsPerPage: 9,
+        resetKey: search,
+    });
+
+
     return (
         <section className="bg-muted px-8 py-12 rounded-2xl min-h-screen">
 
             <div className="mb-10 grid gap-4 md:grid-cols-3">
                 <Input
-                className="px-6 py-5"
+                    className="px-6 py-5"
                     placeholder="Search property..."
                     value={search}
                     onChange={(e) =>
@@ -150,7 +165,7 @@ export default function PropertiesPage({
             {
                 isLoading ? (
                     <PropertyGridSkeleton />
-                ) : filtered.length === 0 ? (
+                ) : paginatedProperties.length === 0 ? (
                     <div className="py-20 text-center">
                         <SearchX className="mx-auto mb-4 h-12 w-12 text-primary" />
                         <h3 className="text-xl font-semibold">
@@ -163,7 +178,7 @@ export default function PropertiesPage({
                     </div>
                 ) : (
                     <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-                        {filtered.map((property) => (
+                        {paginatedProperties.map((property) => (
                             <PropertyCard
                                 key={property.id}
                                 property={property}
@@ -171,7 +186,13 @@ export default function PropertiesPage({
                         ))}
                     </div>
                 )
-            }        
+            }
+            {/* pagination */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
         </section>
     );
 }

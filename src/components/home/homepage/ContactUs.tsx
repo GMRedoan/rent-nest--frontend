@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactSection() {
     return (
-        <section className="py-24">
+        <section id="contact" className="py-24">
             <div className="container">
                 {/* Heading */}
                 <Animate type="fadeDown">

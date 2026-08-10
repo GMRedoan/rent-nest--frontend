@@ -1,3 +1,5 @@
+import { IReview } from "../review/review";
+
 export interface IProperty {
     id?: string;
     title: string;
@@ -9,6 +11,7 @@ export interface IProperty {
     images: string[];
     categoryId?: string;
     createdAt?: string;
+    reviews?: IReview[];
 }
 
 export interface GetPropertiesResponse {

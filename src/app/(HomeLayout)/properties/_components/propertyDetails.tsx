@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { IProperty } from "@/types/property/property";
-import RentalRequestModal from "@/components/Rental/ RentalRequestModal";
 import { useRouter } from "next/navigation";
+import RentalRequestModal from "@/components/reusable/RentalRequestModal";
+import ReviewCard from "./reviewCard";
 
 interface Props {
     property: IProperty;
@@ -30,9 +31,9 @@ export default function PropertyDetails({
                 className="mb-8"
                 onClick={() => router.back()}
             >
-                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Go Back
-             </Button>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Go Back
+            </Button>
 
             <div className="grid gap-10 lg:grid-cols-2">
 
@@ -118,34 +119,26 @@ export default function PropertyDetails({
                             <span className="text-base font-normal text-muted-foreground">
                                 /month
                             </span>
-
                         </p>
-
                     </div>
                     <div>
-
                         <h2 className="mb-2 text-xl font-semibold">
                             Description
                         </h2>
-
                         <p className="leading-7 text-muted-foreground min-h-50">
                             {property.description}
                         </p>
 
                     </div>
-                    {/* <Button
-                        size="lg"
-                        className="w-full"
-                        disabled={property.status === "RENTED"}
-                    >
-                        {property.status === "RENTED"
-                            ? "Already Rented"
-                            : "Request Rental"
-                        }
-
-                    </Button> */}
-            <RentalRequestModal property={property} />
+                    <RentalRequestModal property={property} />
                 </Card>
+                <div>
+                    {
+                        property?.reviews?.map((review) => (
+                            <ReviewCard key={review.id} review={review} />
+                        ))
+                    }
+                </div>
             </div>
         </section>
     );

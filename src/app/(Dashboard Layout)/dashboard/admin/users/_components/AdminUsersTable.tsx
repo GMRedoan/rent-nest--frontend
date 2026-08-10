@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Ban, ShieldCheck, Users } from "lucide-react";
 import {
     Table,
@@ -19,14 +18,8 @@ import { IUserProfile } from "@/types/auth/auth";
 import UpdateUserStatusModal from "./UpdateUserStatusModal";
 import Animate from "@/components/reusable/Animate";
 import { Input } from "@/components/ui/input";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
+import { usePagination } from "@/hooks/usePagination";
+import Pagination from "@/components/reusable/Pagination";
 
 interface Props {
     users: IUserProfile[];
@@ -34,7 +27,6 @@ interface Props {
 
 export default function AdminUsersTable({ users }: Props) {
     const [search, setSearch] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState<IUserProfile | null>(null);
     const [open, setOpen] = useState(false);
     const handleOpen = (user: IUserProfile) => {
@@ -61,19 +53,17 @@ export default function AdminUsersTable({ users }: Props) {
         return roleOrder[a.role] - roleOrder[b.role];
     });
 
-    const ITEMS_PER_PAGE = 6;
-
-    const totalPages = Math.ceil(
-        sortedUsers.length / ITEMS_PER_PAGE
-    );
-
-    const paginatedUsers = sortedUsers.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [search]);
+    // pagination
+    const {
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedData: paginatedUsers,
+    } = usePagination({
+        data: sortedUsers,
+        itemsPerPage: 10,
+        resetKey: search,
+    });
 
     if (users.length === 0) {
         return (
@@ -215,63 +205,11 @@ export default function AdminUsersTable({ users }: Props) {
                 />
             )}
             {/* pagination */}
-            {totalPages > 1 && (
-                <div className="mt-6 flex justify-center">
-                    <Pagination>
-                        <PaginationContent className="space-x-2">
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    onClick={() =>
-                                        setCurrentPage((prev) =>
-                                            Math.max(prev - 1, 1)
-                                        )
-                                    }
-                                    className={
-                                        currentPage === 1
-                                            ? "pointer-events-none opacity-50"
-                                            : "cursor-pointer"
-                                    }
-                                />
-                            </PaginationItem>
-                            {Array.from(
-                                { length: totalPages },
-                                (_, index) => (
-                                    <PaginationItem key={index}>
-                                        <PaginationLink
-                                            isActive={
-                                                currentPage === index + 1
-                                            }
-                                            onClick={() =>
-                                                setCurrentPage(index + 1)
-                                            }
-                                            className="cursor-pointer"
-                                        >
-                                            {index + 1}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                )
-                            )}
-                            <PaginationItem>
-                                <PaginationNext
-                                    onClick={() =>
-                                        setCurrentPage((prev) =>
-                                            Math.min(
-                                                prev + 1,
-                                                totalPages
-                                            )
-                                        )
-                                    }
-                                    className={
-                                        currentPage === totalPages
-                                            ? "pointer-events-none opacity-50"
-                                            : "cursor-pointer"
-                                    }
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
-                </div>
-            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
         </>
     );
 }

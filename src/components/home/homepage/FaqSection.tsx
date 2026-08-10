@@ -41,7 +41,7 @@ const faqs = [
 
 export default function FAQSection() {
     return (
-        <section className="py-24 bg-muted/30 rounded-3xl">
+        <section id="faq" className="py-24 bg-muted/30 rounded-3xl">
             <div>
                 {/* Heading */}
                 <Animate type="fadeDown">

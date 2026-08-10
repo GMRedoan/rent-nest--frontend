@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { format } from "date-fns";
@@ -14,15 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { IMyRentalHistory } from "@/types/rental/rental";
 import Animate from "@/components/reusable/Animate";
-import { useEffect, useState } from "react";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
+import { usePagination } from "@/hooks/usePagination";
+import Pagination from "@/components/reusable/Pagination";
 
 
 interface Props {
@@ -32,23 +24,16 @@ interface Props {
 export default function AdminRentalRequestTable({
     requests,
 }: Props) {
-        const [currentPage, setCurrentPage] = useState(1);
-
-            const ITEMS_PER_PAGE = 8;
-        
-            const totalPages = Math.ceil(
-                requests.length / ITEMS_PER_PAGE
-            );
-        
-    const paginatedUsers = requests.slice(
-                (currentPage - 1) * ITEMS_PER_PAGE,
-                currentPage * ITEMS_PER_PAGE
-            );
-            useEffect(() => {
-                setCurrentPage(1);
-            }, []);
-        
-    
+    const {
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedData: paginatedRequests,
+    } = usePagination({
+        data: requests,
+        itemsPerPage: 10,
+        // resetKey: search,
+    });
 
     if (requests.length === 0) {
         return (
@@ -65,170 +50,117 @@ export default function AdminRentalRequestTable({
             </div>
         );
     }
-
     return (
         <>
-        <Animate className="overflow-hidden rounded-2xl border bg-background">
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Property</TableHead>
-                        <TableHead>Tenant</TableHead>
-                        <TableHead>Rental Period</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Request</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+            <Animate className="overflow-hidden rounded-2xl border bg-background">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Property</TableHead>
+                            <TableHead>Tenant</TableHead>
+                            <TableHead>Rental Period</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Request</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
 
-                    {paginatedUsers.map((request) => (
-                        <TableRow key={request.id}>
+                        {paginatedRequests.map((request) => (
+                            <TableRow key={request.id}>
 
-                            {/* Property */}
-                            <TableCell>
-                                <div className="flex items-center gap-3">
+                                {/* Property */}
+                                <TableCell>
+                                    <div className="flex items-center gap-3">
+                                        <div>
+                                            <p className="font-semibold">
+                                                {request.property.title}
+                                            </p>
+
+                                            <p className="text-sm text-primary">
+                                                ৳{request.property.price} <span className="text-muted-foreground">/ month</span>
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                {/* Tenant */}
+                                <TableCell>
                                     <div>
-                                        <p className="font-semibold">
-                                            {request.property.title}
+                                        <p className="font-medium">
+                                            {request.tenant?.name}
                                         </p>
-
-                                        <p className="text-sm text-primary">
-                                            ৳{request.property.price} <span className="text-muted-foreground">/ month</span>
-
+                                        <p className="text-sm text-blue-400">{request.tenant?.email}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            Requested on: {format(
+                                                new Date(request.createdAt ?? 0),
+                                                "dd MMM yyyy"
+                                            )}
                                         </p>
                                     </div>
-                                </div>
-                            </TableCell>
+                                </TableCell>
 
-                            {/* Tenant */}
-                            <TableCell>
-                                <div>
-                                    <p className="font-medium">
-                                        {request.tenant?.name}
-                                    </p>
-                                    <p className="text-sm text-blue-400">{request.tenant?.email}</p>
-                                    <p className="text-sm text-muted-foreground">
-                                       Requested on: {format(
-                                            new Date(request.createdAt ?? 0),
-                                            "dd MMM yyyy"
-                                        )}
-                                    </p>
-                                </div>
-                            </TableCell>
+                                {/* Rental Period */}
+                                <TableCell>
+                                    <div className="text-sm">
 
-                            {/* Rental Period */}
-                            <TableCell>
-                                <div className="text-sm">
-
-                                    <p>
-                                        {format(
-                                            new Date(request.startDate),
-                                            "dd MMM yyyy"
-                                        )}
-                                    </p>
-                                    <p className="text-muted-foreground">
-                                        to{" "}
-                                        {request.endDate
-                                            ? format(
-                                                new Date(request.endDate),
+                                        <p>
+                                            {format(
+                                                new Date(request.startDate),
                                                 "dd MMM yyyy"
-                                            )
-                                            : "N/A"}
-                                    </p>
-                                </div>
-                            </TableCell>
+                                            )}
+                                        </p>
+                                        <p className="text-muted-foreground">
+                                            to{" "}
+                                            {request.endDate
+                                                ? format(
+                                                    new Date(request.endDate),
+                                                    "dd MMM yyyy"
+                                                )
+                                                : "N/A"}
+                                        </p>
+                                    </div>
+                                </TableCell>
 
-                            {/* Property Status */}
-                            <TableCell>
-                                <Badge
-                                    variant={
-                                        request.property.status === "AVAILABLE"
-                                            ? "default"
-                                            : "link"
-                                    }
-                                >
-                                    {request.property.status}
-                                </Badge>
+                                {/* Property Status */}
+                                <TableCell>
+                                    <Badge
+                                        variant={
+                                            request.property.status === "AVAILABLE"
+                                                ? "default"
+                                                : "link"
+                                        }
+                                    >
+                                        {request.property.status}
+                                    </Badge>
 
-                            </TableCell>
-                            {/* Request Status */}
-                            <TableCell>
-                                <Badge
-                                    variant={
-                                        request.status === "APPROVED"
-                                            ? "default"
-                                            : request.status === "PENDING"
-                                                ? "pending"
-                                                : "destructive"
-                                    }
-                                >
-                                    {request.status}
-                                </Badge>
+                                </TableCell>
+                                {/* Request Status */}
+                                <TableCell>
+                                    <Badge
+                                        variant={
+                                            request.status === "APPROVED"
+                                                ? "default"
+                                                : request.status === "PENDING"
+                                                    ? "pending"
+                                                    : "destructive"
+                                        }
+                                    >
+                                        {request.status}
+                                    </Badge>
 
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </Animate>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </Animate>
             {/* pagination */}
-            {totalPages > 1 && (
-                <div className="mt-6 flex justify-center">
-                    <Pagination>
-                        <PaginationContent className="space-x-2">
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    onClick={() =>
-                                        setCurrentPage((prev) =>
-                                            Math.max(prev - 1, 1)
-                                        )
-                                    }
-                                    className={
-                                        currentPage === 1
-                                            ? "pointer-events-none opacity-50"
-                                            : "cursor-pointer"
-                                    }
-                                />
-                            </PaginationItem>
-                            {Array.from(
-                                { length: totalPages },
-                                (_, index) => (
-                                    <PaginationItem key={index}>
-                                        <PaginationLink
-                                            isActive={
-                                                currentPage === index + 1
-                                            }
-                                            onClick={() =>
-                                                setCurrentPage(index + 1)
-                                            }
-                                            className="cursor-pointer"
-                                        >
-                                            {index + 1}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                )
-                            )}
-                            <PaginationItem>
-                                <PaginationNext
-                                    onClick={() =>
-                                        setCurrentPage((prev) =>
-                                            Math.min(
-                                                prev + 1,
-                                                totalPages
-                                            )
-                                        )
-                                    }
-                                    className={
-                                        currentPage === totalPages
-                                            ? "pointer-events-none opacity-50"
-                                            : "cursor-pointer"
-                                    }
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
-                </div>
-            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
         </>
     );
 }

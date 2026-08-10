@@ -15,7 +15,7 @@ export default function FeaturedProperties({
     const featuredProperties = properties.slice(0, 6);
 
     return (
-        <section className="py-14">
+        <section id="properties" className="py-14">
             <div className="container">
                 {/* Section Header */}
                 <Animate type="fadeDown">

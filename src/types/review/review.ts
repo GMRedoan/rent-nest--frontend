@@ -10,6 +10,11 @@ export interface IReview {
     tenantId: string;
     createdAt: string;
     updatedAt: string;
+    tenant: {
+        name: string;
+        email: string;
+        profilePhoto: string;
+    };
 }
 
 export type CreateReviewResponse = {

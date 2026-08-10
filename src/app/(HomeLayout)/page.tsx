@@ -6,6 +6,7 @@ import HowItWorksSection from "@/components/home/homepage/HowItWorks";
 import WhyChooseSection from "@/components/home/homepage/WhyChooseSection";
 import FAQSection from "@/components/home/homepage/FaqSection";
 import ContactSection from "@/components/home/homepage/ContactUs";
+import Services from "@/components/home/homepage/Service";
 
 const page = async () => {
     const result = await getProperties();
@@ -14,9 +15,10 @@ const page = async () => {
     <div>
       <HeroBanner/>
       <AboutSection/>
-      <FeaturedProperties properties={properties ?? []}/>
       <HowItWorksSection/>
+      <FeaturedProperties properties={properties ?? []}/>
       <WhyChooseSection/>
+      <Services/>
       <FAQSection/>
       <ContactSection/>
     </div>
