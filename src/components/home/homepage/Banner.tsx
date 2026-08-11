@@ -22,7 +22,7 @@ export default function Hero() {
 
     return (
         <section id="home" className="relative overflow-hidden pt-16">
-            <div className="container mx-auto grid min-h-[88vh] items-center gap-16 py-16 lg:grid-cols-2">
+            <div className="container mx-auto grid items-center gap-16 py-10 md:py-26 lg:py-18 lg:grid-cols-2">
                 {/* Left */}
 
                 <Animate type="fadeRight">
@@ -89,7 +89,7 @@ export default function Hero() {
 
                 {/* Right */}
 
-                <Animate className="pt-15 md:pt-0" type="fadeLeft" delay={0.2}>
+                <Animate className="pt-15 md:pt-20 lg:pt-0" type="fadeLeft" delay={0.2}>
                     <PropertyStack />
                 </Animate>
             </div>

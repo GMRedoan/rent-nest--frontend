@@ -9,6 +9,7 @@ import AddPropertyModal from "./AddPropertyModal";
 import { ICategory } from "@/types/category/category";
 import EditPropertyModal from "./EditPropertyModal";
 import DeletePropertyModal from "./DeletePropertyModal";
+import { FileX } from "lucide-react";
 
 interface Props {
     properties: IProperty[];
@@ -27,42 +28,65 @@ export default function PropertyManager({
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     return (
-        <> 
-            {/* Header */}
-            <div className="mb-8 flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold">
-                        My <span className="text-primary">Properties</span>
-                    </h1>
-                    <p className="text-muted-foreground">
-                        Manage all your rental properties.
-                    </p>
-                </div>
-                <Button onClick={() => setAddOpen(true)}>
-                    Add Property <MdAdd/>
-                </Button>
-            </div>
-            {/* Grid */}
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {properties.map((property) => (
-                    <PropertyManagementCard
-                        key={property.id}
-                        property={property}
-                        onEdit={(property) => {
-                            setSelectedProperty(property);
-                            setEditOpen(true);
-                        }}
-                        onDelete={(property) => {
-                            setSelectedProperty(property);
-                            setDeleteOpen(true);
-                        }}
-                    />
-                ))}
-            </div>
+        <>
+            {properties.length === 0 ?
+                (<div className="flex flex-col items-center py-20">
+                    <FileX className="mb-4 h-14 w-14 text-muted-foreground" />
 
+                    <h3 className="text-xl font-semibold">
+                        No Property Found
+                    </h3>
+
+                    <p className="mt-2 text-muted-foreground mb-8">
+                        Please add a property.
+                    </p>
+                    <Button onClick={() => setAddOpen(true)}>
+                        Add Property <MdAdd />
+                    </Button>
+                </div>
+                ) 
+                :
+                (
+                    <>
+                        < div className="mb-8 flex items-center justify-between">
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    My <span className="text-primary">Properties</span>
+                                </h1>
+                                <p className="text-muted-foreground">
+                                    Manage all your rental properties.
+                                </p>
+                            </div>
+                            <Button onClick={() => setAddOpen(true)}>
+                                Add Property <MdAdd />
+                            </Button>
+                        </div >
+                        {/* Grid */}
+                        < div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3" >
+                            {
+                                properties.map((property) => (
+                                    <PropertyManagementCard
+                                        key={property.id}
+                                        property={property}
+                                        onEdit={(property) => {
+                                            setSelectedProperty(property);
+                                            setEditOpen(true);
+                                        }}
+                                        onDelete={(property) => {
+                                            setSelectedProperty(property);
+                                            setDeleteOpen(true);
+                                        }}
+                                    />
+                                ))
+                            }
+                        </div >
+
+                    </>
+                )
+            }
             {/* Modals */}
 
-            <AddPropertyModal
+            < AddPropertyModal
                 open={addOpen}
                 onOpenChange={setAddOpen}
                 categories={categories}
@@ -85,7 +109,7 @@ export default function PropertyManager({
                         propertyTitle={selectedProperty.title}
                     />
                 </>
-            )} 
-         </>
-);
+            )}
+        </>
+    );
 }

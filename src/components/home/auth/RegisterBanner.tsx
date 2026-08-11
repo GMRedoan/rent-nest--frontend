@@ -7,7 +7,7 @@ export default function RegisterBanner() {
     return (
         <section className="relative hidden lg:flex overflow-hidden">
             <Image
-                src="https://i.ibb.co.com/DPgsG7Mq/mike-von-y-ib-WWp-Oi-L0-unsplash.jpg"
+                src="https://i.ibb.co.com/jkbQRNFh/mike-von-y-ib-WWp-Oi-L0-unsplash.jpg"
                 alt="Modern Apartment"
                 fill
                 priority

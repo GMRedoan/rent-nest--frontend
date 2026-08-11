@@ -69,3 +69,7 @@ export interface IUpdateUserStatusResponse {
         user: IUserProfile;
     };
 }
+
+export interface IGoogleLoginPayload {
+  idToken: string;
+}

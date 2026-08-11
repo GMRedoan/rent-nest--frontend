@@ -18,6 +18,7 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { MdArrowBackIos } from "react-icons/md";
 import { Home, Loader2, ShieldCheck, UserRound } from "lucide-react";
 import { demoCredentials } from "./_components/demoCredentials";
+import SocialLogin from "@/components/reusable/SocialLogin";
 
 type LoginData = z.infer<typeof loginSchema>;
 
@@ -76,7 +77,7 @@ export default function LoginForm() {
         <section className="flex items-center justify-center px-6 py-12 bg-background">
             <div className="relative">
                 <Link
-                    className="absolute bottom-75 md:-left-25 text-foreground hover:text-primary flex items-center"
+                    className="absolute bottom-85 md:-left-25 text-foreground hover:text-primary flex items-center"
                     href={"/"}>
                     <MdArrowBackIos />
                     Home
@@ -197,6 +198,9 @@ export default function LoginForm() {
                             <span className="text-xs">Tenant</span>
                         </Button>
                     </div>
+
+                    {/* social login */}
+                    <SocialLogin />
 
                     <div className="text-center text-sm text-muted-foreground">
                         Don not have an account?{" "}

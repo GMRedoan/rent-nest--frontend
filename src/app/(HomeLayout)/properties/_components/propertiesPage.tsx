@@ -99,67 +99,69 @@ export default function PropertiesPage({
                     }
                 />
 
-                <Select
-                    value={type}
-                    onValueChange={setType}
-                >
-                    <SelectTrigger>
-                        <SelectValue />
-                    </SelectTrigger>
+                    <div className="flex gap-4">
+                    <Select
+                        value={type}
+                        onValueChange={setType}
+                    >
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
 
-                    <SelectContent>
+                        <SelectContent>
 
-                        <SelectItem value="ALL">
-                            All Types
-                        </SelectItem>
-                        <SelectItem value="HOUSE">
-                            House
-                        </SelectItem>
-                        <SelectItem value="APARTMENT">
-                            Apartment
-                        </SelectItem>
-                        <SelectItem value="STUDIO">
-                            Studio
-                        </SelectItem>
-                        <SelectItem value="COMMERCIAL">
-                            Commercial
-                        </SelectItem>
-                        <SelectItem value="ROOM">
-                            Room
-                        </SelectItem>
+                            <SelectItem value="ALL">
+                                All Types
+                            </SelectItem>
+                            <SelectItem value="HOUSE">
+                                House
+                            </SelectItem>
+                            <SelectItem value="APARTMENT">
+                                Apartment
+                            </SelectItem>
+                            <SelectItem value="STUDIO">
+                                Studio
+                            </SelectItem>
+                            <SelectItem value="COMMERCIAL">
+                                Commercial
+                            </SelectItem>
+                            <SelectItem value="ROOM">
+                                Room
+                            </SelectItem>
 
-                    </SelectContent>
-                </Select>
+                        </SelectContent>
+                    </Select>
 
-                <Select
-                    value={sort}
-                    onValueChange={setSort}
-                >
-                    <SelectTrigger>
-                        <SelectValue />
-                    </SelectTrigger>
+                    <Select
+                        value={sort}
+                        onValueChange={setSort}
+                    >
+                        <SelectTrigger>
+                            <SelectValue />
+                        </SelectTrigger>
 
-                    <SelectContent>
+                        <SelectContent>
 
-                        <SelectItem value="newest">
-                            Newest
-                        </SelectItem>
+                            <SelectItem value="newest">
+                                Newest
+                            </SelectItem>
 
-                        <SelectItem value="oldest">
-                            Oldest
-                        </SelectItem>
+                            <SelectItem value="oldest">
+                                Oldest
+                            </SelectItem>
 
-                        <SelectItem value="price-low">
-                            Price Low → High
-                        </SelectItem>
+                            <SelectItem value="price-low">
+                                Price Low → High
+                            </SelectItem>
 
-                        <SelectItem value="price-high">
-                            Price High → Low
-                        </SelectItem>
+                            <SelectItem value="price-high">
+                                Price High → Low
+                            </SelectItem>
 
-                    </SelectContent>
-                </Select>
+                        </SelectContent>
+                    </Select>
 
+                    </div>
             </div>
 
             {

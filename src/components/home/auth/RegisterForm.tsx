@@ -27,6 +27,7 @@ import { registerUser } from "@/server/auth/auth.service";
 import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
 import { MdArrowBackIos } from "react-icons/md";
+import SocialLogin from "@/components/reusable/SocialLogin";
 
 type FormData = z.infer<typeof createUserSchema>;
 
@@ -50,7 +51,12 @@ export default function RegisterForm() {
     const role = watch("role");
 
     const onSubmit = async (payload: FormData) => {
-        const result = await registerUser(payload)  
+        const result = await registerUser({
+            ...payload,
+            phone: payload.phone ?? "",
+            password: payload.password ?? "",
+            role: payload.role ?? "TENANT",
+        });
 
         if (!result.success) {
             Toast({
@@ -182,7 +188,7 @@ export default function RegisterForm() {
 
                         {/* Role */}
                         <div className="space-y-2">
-                            <Label>Register As</Label>
+                            <Label className="text-primary">Register As</Label>
 
                             <Select
                                 value={role}
@@ -218,6 +224,9 @@ export default function RegisterForm() {
                                 : "Create Account"}
                         </Button>
                     </form>
+
+                    {/* social */}
+                    {/* <SocialLogin/> */}
 
                     <div className="text-center text-sm text-muted-foreground">
                         Already have an account?{" "}

@@ -25,7 +25,6 @@ export function AuthProvider({
     const isLoggedIn = !!user;
     const refreshUser = async () => {
         const res = await getUser();
-
         if (res.success) {
             setUser(res?.data);
         } else {

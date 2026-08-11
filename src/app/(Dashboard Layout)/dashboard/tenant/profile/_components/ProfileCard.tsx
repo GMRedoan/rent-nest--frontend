@@ -26,22 +26,28 @@ export default function ProfileCard() {
         <>
             <Animate type="zoom" className="overflow-hidden rounded-3xl border bg-background shadow-sm">
                 {/* Header */}
-                <div className="flex items-start justify-between border-b p-8">
+                <div className="flex items-start justify-between border-b p-3 md:p-8">
                     <div className="flex items-center gap-6">
-                        <Avatar className="h-28 w-28 border-4 border-primary/10">
+                        <Avatar className="h-18 md:h-28 w-18 md:w-28 border-4 border-primary/10">
                             <AvatarImage src={user?.profilePhoto ?? undefined} />
 
-                            <AvatarFallback className="text-3xl font-bold">
+                            <AvatarFallback className="text-xl md:text-3xl font-bold">
                                 {user?.name?.charAt(0).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
 
                         <div className="space-y-3">
                             <div className="flex items-center gap-2">
-                                <h2 className="text-3xl font-bold">
-                                    {user?.name}
-                                </h2>
+                                <h2 className="text-lg font-bold md:text-3xl">
+                                    <span className="md:hidden">
+                                        {user?.name?.slice(0, 14)}
+                                        {user?.name && user.name.length > 14 ? "..." : ""}
+                                    </span>
 
+                                    <span className="hidden md:inline">
+                                        {user?.name}
+                                    </span>
+                                </h2>
                                 {user?.status === "ACTIVE" && (
                                     <BadgeCheck className="h-5 w-5 text-primary" />
                                 )}
@@ -59,7 +65,7 @@ export default function ProfileCard() {
                                 </Badge>
                             </div>
 
-                            <p className="text-muted-foreground">
+                            <p className="text-sm text-muted-foreground">
                                 Member since{" "}
                                 {format(
                                     new Date(user?.createdAt),
@@ -69,14 +75,17 @@ export default function ProfileCard() {
                         </div>
                     </div>
 
-                    <Button onClick={() => setOpen(true)}>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit Profile
+                    <Button
+                        onClick={() => setOpen(true)}
+                        className="h-9 w-9 p-0 md:h-10 md:w-auto md:px-4"
+                    >
+                        <Pencil className="h-4 w-4 md:mr-2" />
+                        <span className="hidden md:inline">Edit Profile</span>
                     </Button>
                 </div>
 
                 {/* Body */}
-                <div className="grid gap-8 p-8 md:grid-cols-2">
+                <div className="grid gap-8 p-3 md:p-8 md:grid-cols-2">
                     <div className="space-y-6">
                         <div className="flex items-center gap-3 rounded-xl border p-4">
                             <Mail className="h-5 w-5 text-primary" />

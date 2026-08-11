@@ -1,7 +1,7 @@
 "use server"
 
 import serverFetch from "@/lib/serverFetch";
-import { ICreateUser, ILoginPayload, Response } from "@/types/auth/auth";
+import { ICreateUser, IGoogleLoginPayload, ILoginPayload, Response } from "@/types/auth/auth";
 import { createUserSchema, loginSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
 
@@ -93,6 +93,56 @@ export const login = async (payload: ILoginPayload) => {
         };
     }
 }
+
+// google Login
+export const googleLogin = async (payload: IGoogleLoginPayload) => {
+  try {
+    const result = await serverFetch.post<Response>(
+      "/auth/google",
+      payload
+    );
+
+    if (!result.success || !result.data) {
+      return {
+        success: false,
+        message: result.message || "Google login failed.",
+      };
+    }
+
+    const { accessToken, refreshToken } = result.data;
+
+    const cookieStore = await cookies();
+
+    cookieStore.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
+
+    cookieStore.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 30,
+    });
+
+    return {
+      success: true,
+      message: result.message,
+    };
+  } catch (error) {
+    console.error("GOOGLE LOGIN ERROR:", error);
+
+    return {
+      success: false,
+      message: "Google login failed. Please try again.",
+    };
+  }
+};
+
 
 // log out
 export async function logoutAction() {

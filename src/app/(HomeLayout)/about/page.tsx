@@ -31,7 +31,7 @@ export default function AboutSection() {
     ];
 
     return (
-        <section id="about" className="py-24 md:py-34">
+        <section id="about" className="py-24 md:py-14 lg:py-34">
             <div className="container">
                 <div className="grid items-center gap-14 lg:grid-cols-2">
                     {/* Left */}
@@ -46,8 +46,8 @@ export default function AboutSection() {
                                 className="rounded-3xl object-cover shadow-xl"
                             />
 
-                            <div className="absolute -bottom-8 -right-8 rounded-2xl border bg-background p-6 shadow-xl">
-                                <p className="text-4xl font-bold text-primary">
+                            <div className="absolute -bottom-8 md:right-4 lg:-right-8 rounded-2xl border bg-background p-6 shadow-xl">
+                                <p className="text-2xl md:text-4xl font-bold text-primary">
                                     500+
                                 </p>
 

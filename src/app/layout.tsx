@@ -4,12 +4,13 @@ import { AuthProvider } from "@/provider/AuthProvider";
 import Providers from "@/provider/Providers";
 import { getUser } from "@/server/user/user.service";
 import { Inter } from "next/font/google";
+import GoogleProvider from "@/provider/GoogleProvider";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
- 
+
 export const metadata: Metadata = {
   title: {
     default: "RentNest",
@@ -32,13 +33,15 @@ export default async function RootLayout({
       className={`${inter.className} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>
-          <AuthProvider 
-            initialUser={user.success ? user.data : null}
-          >
-            {children}
-          </AuthProvider>
-        </Providers>
+        <GoogleProvider>
+          <Providers>
+            <AuthProvider
+              initialUser={user.success ? user.data : null}
+            >
+              {children}
+            </AuthProvider>
+          </Providers>
+        </GoogleProvider>
       </body>
     </html>
   );
