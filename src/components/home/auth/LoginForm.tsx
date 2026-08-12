@@ -77,7 +77,7 @@ export default function LoginForm() {
         <section className="flex items-center justify-center px-6 py-12 bg-background">
             <div className="relative">
                 <Link
-                    className="absolute bottom-85 md:-left-25 text-foreground hover:text-primary flex items-center"
+                    className="absolute md:bottom-85 lg:bottom-75 md:-left-25 text-foreground hover:text-primary flex items-center"
                     href={"/"}>
                     <MdArrowBackIos />
                     Home
