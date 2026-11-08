@@ -1,11 +1,11 @@
 "use server"
 
 import serverFetch from "@/lib/serverFetch";
-import { ICreateUser, IGoogleLoginPayload, ILoginPayload, Response } from "@/types/auth/auth";
+import { ICreateUser, IGoogleLoginPayload, ILoginPayload, IVerifyEmailPayload, Response } from "@/types/auth/auth";
 import { createUserSchema, loginSchema } from "@/validation/auth.schema";
 import { cookies } from "next/headers";
 
-// register
+// register 
 export const registerUser = async (payload: ICreateUser) => {
     try {
         const validatedPayload = await createUserSchema.safeParseAsync(payload);
@@ -18,7 +18,7 @@ export const registerUser = async (payload: ICreateUser) => {
         }
         const result = await serverFetch.post<Response>("/auth/register", validatedPayload.data);
 
-        if (!result.success || !result.data) {
+        if (!result.success) {
             return {
                 success: false,
                 message: result.message,
@@ -27,6 +27,7 @@ export const registerUser = async (payload: ICreateUser) => {
         return {
             success: true,
             message: result.message,
+            data: result.data,
         };
 
     } catch (error) {
@@ -143,6 +144,56 @@ export const googleLogin = async (payload: IGoogleLoginPayload) => {
   }
 };
 
+// verify email
+export const verifyEmail = async (payload: IVerifyEmailPayload) => {
+    try {
+        const result = await serverFetch.post<Response>("/auth/verify-email",
+          payload,
+        );
+        if (!result.success || !result.data) {
+            return {
+                success: false,
+                message: result.message,
+            };
+        }
+
+        const { accessToken, refreshToken } = result.data;
+
+        const cookieStore = await cookies();
+
+        // store token
+        cookieStore.set("accessToken", accessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          path: "/",
+          maxAge: 7 * 24 * 60 * 60,
+        });
+        
+        cookieStore.set("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          path: "/",
+          maxAge: 7 * 24 * 60 * 60 * 30,
+        });
+
+        return {
+          success: true,
+          message: result.message,
+          accessToken,
+          refreshToken,
+        };
+
+
+    } catch (error) {
+        console.error("EMAIL VERIFICATION ERROR:", error);
+        return {
+            success: false,
+            message: "Email verification failed. Please try again.",
+        };
+    }
+}
 
 // log out
 export async function logoutAction() {

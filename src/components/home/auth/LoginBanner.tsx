@@ -7,7 +7,7 @@ export default function LoginBanner() {
     return (
         <section className="relative hidden lg:flex overflow-hidden">
             <Image
-                src="https://i.ibb.co.com/8L7nth8m/vigor-poodo-deao-E9-PJe-KI-unsplash.jpg"
+                src="https://images.unsplash.com/photo-1595262493050-5b0f29ccf4b1?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
                 alt="Property"
                 fill
                 priority

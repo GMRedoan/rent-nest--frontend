@@ -47,7 +47,7 @@ export default function EditProfileModal({
         reset,
         formState: { errors, isSubmitting },
     } = useForm<IUpdateProfile>({
-        defaultValues: {
+        defaultValues: { 
             name: user.name,
             phone: user.phone,
             bio: user.bio ?? "",
@@ -116,129 +116,116 @@ export default function EditProfileModal({
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-xl">
-                <DialogHeader>
-                    <DialogTitle className="text-2xl font-semibold">Edit Profile</DialogTitle>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold">
+              Edit Profile
+            </DialogTitle>
 
-                    <DialogDescription>
-                        Update your profile information.
-                    </DialogDescription>
-                </DialogHeader>
+            <DialogDescription>
+              Update your profile information.
+            </DialogDescription>
+          </DialogHeader>
 
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-6"
-                >
-                    {/* Avatar */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Avatar */}
 
-                    <div className="flex flex-col items-center gap-3">
-                        <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-primary/20">
-                            {preview ? (
-                                <Image
-                                    src={preview}
-                                    alt="Preview"
-                                    fill
-                                    className="object-cover"
-                                />
-                            ) : (
-                                <div className="flex h-full items-center justify-center bg-muted text-3xl font-bold">
-                                    {user.name.charAt(0)}
-                                </div>
-                            )}
-                        </div>
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-primary/20">
+                {preview ? (
+                  <Image
+                    src={preview}
+                    alt="Preview"
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-muted text-3xl font-bold">
+                    {user.name.charAt(0)}
+                  </div>
+                )}
+              </div>
 
-                        <Label
-                            htmlFor="photo"
-                            className="cursor-pointer"
-                        >
-                            <div className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-muted">
-                                <Camera className="h-4 w-4" />
-                                Change Photo
-                            </div>
-                        </Label>
+              <Label htmlFor="photo" className="cursor-pointer">
+                <div className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-muted">
+                  <Camera className="h-4 w-4" />
+                  Change Photo
+                </div>
+              </Label>
 
-                        <Input
-                            id="photo"
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={handleImage}
-                        />
-                    </div>
+              <Input
+                id="photo"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImage}
+              />
+            </div>
 
-                    {/* Name */}
+            {/* Name */}
 
-                    <div className="space-y-2">
-                        <Label>Name</Label>
+            <div className="space-y-2">
+              <Label>Name</Label>
 
-                        <Input
-                            {...register("name", {
-                                required: "Name is required",
-                            })}
-                        />
+              <Input
+                {...register("name", {
+                  required: "Name is required",
+                })}
+              />
 
-                        <p className="text-sm text-destructive">
-                            {errors.name?.message}
-                        </p>
-                    </div>
+              <p className="text-sm text-destructive">{errors.name?.message}</p>
+            </div>
 
-                    {/* Email */}
+            {/* Email */}
 
-                    <div className="space-y-2">
-                        <Label>Email</Label>
+            <div className="space-y-2">
+              <Label>Email</Label>
 
-                        <Input
-                            value={user?.email}
-                            disabled
-                        />
-                    </div>
+              <Input value={user?.email} disabled />
+            </div>
 
-                    {/* Phone */}
+            {/* Phone */}
 
-                    <div className="space-y-2">
-                        <Label>Phone</Label>
+            <div className="space-y-2">
+              <Label>Phone</Label>
 
-                        <Input
-                            {...register("phone", {
-                                required: "Phone is required",
-                            })}
-                        />
+              <Input
+                placeholder="Enter your phone number"
+                {...register("phone", {
+                  required: "Phone is required",
+                })}
+              />
 
-                        <p className="text-sm text-destructive">
-                            {errors.phone?.message}
-                        </p>
-                    </div>
+              <p className="text-sm text-destructive">
+                {errors.phone?.message}
+              </p>
+            </div>
 
-                    {/* Bio */}
+            {/* Bio */}
 
-                    <div className="space-y-2">
-                        <Label>Bio</Label>
+            <div className="space-y-2">
+              <Label>Bio</Label>
 
-                        <Textarea
-                            rows={4}
-                            placeholder="Tell us something about yourself..."
-                            {...register("bio")}
-                        />
-                    </div>
+              <Textarea
+                rows={4}
+                placeholder="Tell us something about yourself..."
+                {...register("bio")}
+              />
+            </div>
 
-                    <Button
-                        className="w-full"
-                        disabled={
-                            isSubmitting || uploading
-                        }
-                    >
-                        {isSubmitting || uploading ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Saving...
-                            </>
-                        ) : (
-                            "Save Changes"
-                        )}
-                    </Button>
-                </form>
-            </DialogContent>
-        </Dialog>
+            <Button className="w-full" disabled={isSubmitting || uploading}>
+              {isSubmitting || uploading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                "Save Changes"
+              )}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     );
 }

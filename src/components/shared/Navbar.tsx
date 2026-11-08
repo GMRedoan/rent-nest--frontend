@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "@/components/shared/theme/ThemeToggle";
@@ -34,6 +34,7 @@ import {
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -74,6 +75,8 @@ const defaultMenu: MenuItem[] = [
 ];
 
 const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
+    const router = useRouter();
+    const [ dropdownOpen, setDropdownOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const { user, setUser, isLoggedIn } = useAuth();
 
@@ -89,31 +92,48 @@ const Navbar = ({ menu = defaultMenu }: NavbarProps) => {
     }, []);
 
     // logout
-    const handleLogOut = async () => {
-        try {
-            const result = await logoutAction();
+const handleLogOut = async () => {
+    setDropdownOpen(false); 
+  const confirmation = await Swal.fire({
+    title: "Are you sure?",
+    text: "Do you really want to log out of your account?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#4CAF50",
+    cancelButtonColor: "#6B7280",
+    confirmButtonText: "Yes, Logout",
+    cancelButtonText: "Cancel",
+    reverseButtons: true,
+  });
 
-            if (!result.success) {
-                Toast({
-                    icon: "error",
-                    title: result?.message || "Login failed",
-                });
-                return;
-            }
-            setUser(null);
-            Swal.fire({
-                icon: "success",
-                title: "Logout successful",
-                text: "You have been logged out successfully",
-                confirmButtonColor: "#4CAF50"
-            })
-        } catch (error: any) {
-            Toast({
-                icon: "error",
-                title: error?.message || "Logout failed",
-            });
-        }
-    };
+  if (!confirmation.isConfirmed) return;
+
+  try {
+    const result = await logoutAction();
+
+    if (!result.success) {
+      Toast({
+        icon: "error",
+        title: result?.message || "Logout failed",
+      });
+      return;
+    }
+
+    setUser(null);
+    router.push("/login");
+    Swal.fire({
+      icon: "success",
+      title: "Logout successful",
+      text: "You have been logged out successfully",
+      confirmButtonColor: "#4CAF50",
+    });
+  } catch (error: any) {
+    Toast({
+      icon: "error",
+      title: error?.message || "Logout failed",
+    });
+  }
+};
 
     return (
         <motion.section
@@ -196,115 +216,128 @@ const DesktopMenu = ({ menu, user, isLoggedIn, handleLogOut }: any) => {
 };
 
 // ====================== Auth ======================
-const AuthButtons = ({ isLoggedIn, user, handleLogOut }: any) => {
+const AuthButtons = ({ isLoggedIn, user, handleLogOut, dropdownOpen, setDropdownOpen }: any) => {
     return (
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            {user ? (
-                <div className="w-fit">
-                    <Link
-                        href={"/dashboard"}
-                        className="text-md font-semibold text-foreground lg:text-foreground bg-muted px-4 py-2 rounded-full hover:bg-muted/80 transition-colors duration-300 hover:text-primary border border-border/60"
-                    >
-                        Dashboard
-                    </Link>
-                </div>
-            ) : (
-                <div>
-                </div>
-            )}
+      <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+        {user ? (
+          <div className="w-fit">
+            <Link
+              href={"/dashboard"}
+              className="text-md font-semibold text-foreground lg:text-foreground bg-muted px-4 py-2 rounded-full hover:bg-muted/80 transition-colors duration-300 hover:text-primary border border-border/60"
+            >
+              Dashboard
+            </Link>
+          </div>
+        ) : (
+          <div></div>
+        )}
 
-            <div className="flex items-center gap-4 mt-8 md:mt-0">
-                <ThemeToggle />
-                {!isLoggedIn ? (
-                    <div>
-                        <Link href={"/login"}>
-                            <Button className="px-4 py-5 font-medium cursor-pointer text-white">LOGIN / REGISTER</Button>
-                        </Link>
-                    </div>
-                ) : (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <button className="rounded-full cursor-pointer border border-primary/60 hover:border-primary">
-                                <Avatar>
-                                    <AvatarImage src={user?.profilePhoto} alt={user?.name || "User"} />
-                                    <AvatarFallback className="font-semibold">
-                                        {user?.name?.charAt(0).toUpperCase() || "U"}
-                                    </AvatarFallback>
-                                </Avatar>
-                            </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent
-                            align="end"
-                            className="w-72 rounded-xl border bg-background p-4 shadow-xl"
-                        >
-                            {/* Header */}
-                            <Link
-                                href={`/dashboard/${user?.role.toLowerCase()}/profile`}
-                                className="group mb-4 flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-foreground/3 p-3 transition-all hover:border-primary/20 hover:bg-foreground/5"
-                            >
-                                <div className="flex items-center gap-3 min-w-0">
-                                    <Avatar className="h-11 w-11 border">
-                                        <AvatarImage src={user?.profilePhoto} alt={user?.name || "User"} />
-                                        <AvatarFallback className="font-semibold">
-                                            {user?.name?.charAt(0).toUpperCase() || "U"}
-                                        </AvatarFallback>
-                                    </Avatar>
-
-                                    <div className="min-w-0 flex-1">
-                                        <div className="flex items-center gap-1">
-                                            <p className="truncate text-sm font-semibold">
-                                                {user?.name}
-                                            </p>
-                                            {user?.isVerified && (
-                                                <div className="bg-primary text-primary-foreground rounded-full">
-                                                    <BadgeCheck className="h-3 w-3" />
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <p className="truncate text-xs text-muted-foreground">
-                                            {user?.email}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground" />
-                            </Link>
-
-                            {/* Info */}
-                            <div className="space-y-3 text-sm">
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center gap-2 text-muted-foreground">
-                                        <Phone className="h-3.5 w-3.5" />
-                                        Phone
-                                    </span>
-                                    <span className="font-medium">{user?.phone}</span>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center gap-2 text-muted-foreground">
-                                        <Shield className="h-3.5 w-3.5" />
-                                        Role
-                                    </span>
-                                    <span className="font-medium">{user?.role}</span>
-                                </div>
-                            </div>
-
-                            {/* Actions */}
-                            <div className="mt-4 border-t pt-3">
-                                <button
-                                    onClick={handleLogOut}
-                                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer text-red-500 transition-all hover:bg-red-500/10"
-                                >
-                                    <LogOut className="h-4 w-4" />
-                                    Logout
-                                </button>
-                            </div>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                )}
+        <div className="flex items-center gap-4 mt-8 md:mt-0">
+          <ThemeToggle />
+          {!isLoggedIn ? (
+            <div>
+              <Link href={"/login"}>
+                <Button className="px-4 py-5 font-medium cursor-pointer text-white">
+                  LOGIN / REGISTER
+                </Button>
+              </Link>
             </div>
+          ) : (
+            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+              <DropdownMenuTrigger asChild>
+                <button className="rounded-full cursor-pointer border border-primary/60 hover:border-primary">
+                  <Avatar>
+                    <AvatarImage
+                      src={user?.profilePhoto}
+                      alt={user?.name || "User"}
+                    />
+                    <AvatarFallback className="font-semibold">
+                      {user?.name?.charAt(0).toUpperCase() || "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-72 rounded-xl border bg-background p-4 shadow-xl"
+              >
+                {/* Header */}
+                <Link
+                  href={`/dashboard/${user?.role.toLowerCase()}/profile`}
+                  className="group mb-4 flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-foreground/3 p-3 transition-all hover:border-primary/20 hover:bg-foreground/5"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Avatar className="h-11 w-11 border">
+                      <AvatarImage
+                        src={user?.profilePhoto}
+                        alt={user?.name || "User"}
+                      />
+                      <AvatarFallback className="font-semibold">
+                        {user?.name?.charAt(0).toUpperCase() || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1">
+                        <p className="truncate text-sm font-semibold">
+                          {user?.name}
+                        </p>
+                        {user?.isVerified && (
+                          <div className="bg-primary text-primary-foreground rounded-full">
+                            <BadgeCheck className="h-3 w-3" />
+                          </div>
+                        )}
+                      </div>
+
+                      <p className="truncate text-xs text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground" />
+                </Link>
+
+                {/* Info */}
+                <div className="space-y-3 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2 text-muted-foreground">
+                      <Phone className="h-3.5 w-3.5" />
+                      Phone
+                    </span>
+                    {user?.phone ? (
+                      <span className="font-medium">{user?.phone}</span>
+                    ) : (
+                      <span className="font-medium text-muted-foreground">
+                        Not provided
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2 text-muted-foreground">
+                      <Shield className="h-3.5 w-3.5" />
+                      Role
+                    </span>
+                    <span className="font-medium">{user?.role}</span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="mt-4 border-t pt-3">
+                  <DropdownMenuItem
+                    onSelect={handleLogOut}
+                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium cursor-pointer text-red-500 focus:bg-red-500/10 focus:text-red-500"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
+      </div>
     );
 };
 

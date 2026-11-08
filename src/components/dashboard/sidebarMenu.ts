@@ -3,10 +3,8 @@ import {
     Building2,
     ClipboardList,
     Users,
-    Heart,
-    User,
-    Settings,
-} from "lucide-react";
+     User,
+ } from "lucide-react";
 import { MdCategory, MdPayment, MdRateReview, MdReviews } from "react-icons/md";
 
 export const sidebarItems = {

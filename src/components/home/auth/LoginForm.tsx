@@ -16,203 +16,213 @@ import { Toast } from "@/components/reusable/toast";
 import { useAuth } from "@/provider/AuthProvider";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { MdArrowBackIos } from "react-icons/md";
-import { Home, Loader2, ShieldCheck, UserRound } from "lucide-react";
+import { Eye, EyeOff, Home, Loader2, ShieldCheck, UserRound } from "lucide-react";
 import { demoCredentials } from "./_components/demoCredentials";
 import SocialLogin from "@/components/reusable/SocialLogin";
+import { useState } from "react";
 
 type LoginData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
-    const router = useRouter();
-    const { refreshUser } = useAuth();
-    const {
-        register,
-        handleSubmit, 
-        reset,
-        formState: { errors, isSubmitting },
-    } = useForm<LoginData>({
-        resolver: zodResolver(loginSchema),
+  const router = useRouter();
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const { refreshUser } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (payload: LoginData) => {
+    try {
+      const result = await login(payload);
+
+      if (result.success) {
+        await refreshUser();
+        router.push("/");
+        Swal.fire({
+          title: "Welcome Back",
+          text: "You Successfully Logged in your account",
+          icon: "success",
+          confirmButtonColor: "#4CAF50",
+        });
+        reset();
+      } else {
+        Toast({
+          icon: "error",
+          title: result?.message || "Login failed",
+        });
+      }
+    } catch (error) {
+      console.error("LOGIN ERROR:", error);
+      return error;
+    }
+  };
+
+  const handleDemoLogin = async (role: "admin" | "landlord" | "tenant") => {
+    const credentials = demoCredentials[role];
+    setIsDemoLoading(true);
+
+    reset({
+      email: credentials.email,
+      password: credentials.password,
     });
 
-    const onSubmit = async (payload: LoginData) => {
-        try {
-            const result = await login(payload);
+    await onSubmit(credentials);
+    setIsDemoLoading(false);
+  };
 
-            if (result.success) {
-                await refreshUser();
-                router.push("/");
-                Swal.fire({
-                    title: "Welcome Back",
-                    text: "You Successfully Logged in your account",
-                    icon: "success",
-                    confirmButtonColor: "#4CAF50"
-                });
-                reset();
-            } else {
-                Toast({
-                    icon: "error",
-                    title: result?.message || "Login failed",
-                });
-            }
-        } catch (error) {
-            console.error("LOGIN ERROR:", error);
-            return error;
-        }
-    };
+  return (
+    <section className="flex items-center justify-center px-6 py-12 bg-background">
+      <div className="relative">
+        <Link
+          className="absolute md:bottom-85 lg:bottom-75 md:-left-25 text-foreground hover:text-primary flex items-center"
+          href={"/"}
+        >
+          <MdArrowBackIos />
+          Home
+        </Link>
+      </div>
+      <Animate type="fadeLeft" className="w-full max-w-md">
+        <div className="space-y-8">
+          <div>
+            <h2 className="text-3xl font-bold">Welcome Back</h2>
 
-    const handleDemoLogin = async (
-        role: "admin" | "landlord" | "tenant"
-    ) => {
-        const credentials = demoCredentials[role];
+            <p className="text-muted-foreground mt-2">
+              Login to continue managing your properties.
+            </p>
+          </div>
 
-        reset({
-            email: credentials.email,
-            password: credentials.password,
-        });
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <div className="space-y-2">
+              <Label>Email</Label>
 
-        await onSubmit(credentials);
-    };
+              <div className="relative">
+                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
 
-    return (
-        <section className="flex items-center justify-center px-6 py-12 bg-background">
-            <div className="relative">
-                <Link
-                    className="absolute md:bottom-85 lg:bottom-75 md:-left-25 text-foreground hover:text-primary flex items-center"
-                    href={"/"}>
-                    <MdArrowBackIos />
-                    Home
-                </Link>
+                <Input
+                  {...register("email")}
+                  placeholder="Enter your email"
+                  className="pl-11 h-12"
+                />
+              </div>
+
+              {errors.email && (
+                <p className="text-sm text-destructive">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
-            <Animate type="fadeLeft" className="w-full max-w-md">
-                <div className="space-y-8">
-                    <div>
-                        <h2 className="text-3xl font-bold">Welcome Back</h2>
 
-                        <p className="text-muted-foreground mt-2">
-                            Login to continue managing your properties.
-                        </p>
-                    </div>
+            <div className="space-y-2">
+              <Label>Password</Label>
 
-                    <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="space-y-5"
-                    >
-                        <div className="space-y-2">
-                            <Label>Email</Label>
+              <div className="relative">
+                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
 
-                            <div className="relative">
-                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  placeholder="Enter your password"
+                  className="pl-11 h-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground cursor-pointer"
+                >
+                  {showPassword ? <Eye /> : <EyeOff />}
+                </button>
+              </div>
 
-                                <Input
-                                    {...register("email")}
-                                    placeholder="Enter your email"
-                                    className="pl-11 h-12"
-                                />
-                            </div>
+              {errors.password && (
+                <p className="text-sm text-destructive">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
 
-                            {errors.email && (
-                                <p className="text-sm text-destructive">
-                                    {errors.email.message}
-                                </p>
-                            )}
-                        </div>
+            <Button
+              className="w-full h-12 text-white font-semibold"
+              disabled={isSubmitting || isDemoLoading}
+            >
+              {isSubmitting || isDemoLoading ? (
+                <>
+                  Signing In...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                </>
+              ) : (
+                "Login"
+              )}
+            </Button>
+          </form>
 
-                        <div className="space-y-2">
-                            <Label>Password</Label>
+          {/* Demo login */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t" />
+            </div>
 
-                            <div className="relative">
-                                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-3 text-muted-foreground">
+                Demo Accounts Login
+              </span>
+            </div>
+          </div>
 
-                                <Input
-                                    type="password"
-                                    {...register("password")}
-                                    placeholder="Enter your password"
-                                    className="pl-11 h-12"
-                                />
-                            </div>
+          <div className="grid grid-cols-3 gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isSubmitting}
+              onClick={() => handleDemoLogin("admin")}
+              className="h-auto flex-col gap-1 py-3"
+            >
+              <ShieldCheck className="h-4 w-4 text-primary" />
+              <span className="text-xs">Admin</span>
+            </Button>
 
-                            {errors.password && (
-                                <p className="text-sm text-destructive">
-                                    {errors.password.message}
-                                </p>
-                            )}
-                        </div>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isSubmitting}
+              onClick={() => handleDemoLogin("landlord")}
+              className="h-auto flex-col gap-1 py-3"
+            >
+              <Home className="h-4 w-4 text-primary" />
+              <span className="text-xs">Landlord</span>
+            </Button>
 
-                        <Button
-                            className="w-full h-12 text-white font-semibold"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ?
-                                <>
-                                    Signing In...
-                                    < Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                </>
-                                : "Login"}
-                        </Button>
-                    </form>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isSubmitting}
+              onClick={() => handleDemoLogin("tenant")}
+              className="h-auto flex-col gap-1 py-3"
+            >
+              <UserRound className="h-4 w-4 text-primary" />
+              <span className="text-xs">Tenant</span>
+            </Button>
+          </div>
 
-                    {/* Demo login */}
-                    <div className="relative my-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t" />
-                        </div>
+          {/* social login */}
+          <SocialLogin />
 
-                        <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-background px-3 text-muted-foreground">
-                                Demo Accounts Login
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-2">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            disabled={isSubmitting}
-                            onClick={() => handleDemoLogin("admin")}
-                            className="h-auto flex-col gap-1 py-3"
-                        >
-                            <ShieldCheck className="h-4 w-4 text-primary" />
-                            <span className="text-xs">Admin</span>
-                        </Button>
-
-                        <Button
-                            type="button"
-                            variant="outline"
-                            disabled={isSubmitting}
-                            onClick={() => handleDemoLogin("landlord")}
-                            className="h-auto flex-col gap-1 py-3"
-                        >
-                            <Home className="h-4 w-4 text-primary" />
-                            <span className="text-xs">Landlord</span>
-                        </Button>
-
-                        <Button
-                            type="button"
-                            variant="outline"
-                            disabled={isSubmitting}
-                            onClick={() => handleDemoLogin("tenant")}
-                            className="h-auto flex-col gap-1 py-3"
-                        >
-                            <UserRound className="h-4 w-4 text-primary" />
-                            <span className="text-xs">Tenant</span>
-                        </Button>
-                    </div>
-
-                    {/* social login */}
-                    <SocialLogin />
-
-                    <div className="text-center text-sm text-muted-foreground">
-                        Don not have an account?{" "}
-                        <Link
-                            href="/register"
-                            className="text-primary font-semibold hover:underline"
-                        >
-                            Create one
-                        </Link>
-                    </div>
-                </div>
-            </Animate>
-        </section>
-    );
+          <div className="text-center text-sm text-muted-foreground">
+            Don not have an account?{" "}
+            <Link
+              href="/register"
+              className="text-primary font-semibold hover:underline"
+            >
+              Create one
+            </Link>
+          </div>
+        </div>
+      </Animate>
+    </section>
+  );
 }
