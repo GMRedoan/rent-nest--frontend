@@ -78,3 +78,13 @@ export interface IVerifyEmailPayload {
   email: string;
   otp: string;
 }
+
+export interface IResetPasswordPayload {
+  email: string;
+  newPassword: string;
+  otp: string;
+}
+
+export interface ForgotPasswordFormValues {
+  email: string;
+}

@@ -52,14 +52,22 @@ export default function RentalDetailsModal({
                         height={350}
                         className="rounded-xl object-cover"
                     />
-                    <Image
-                        src={request.property.images[1]}
-                        alt={request.property.title}
-                        width={400}
-                        height={350}
-                        className="rounded-xl object-cover"
-                    />
-
+                    {request.property.images.length > 1 ? (
+                        <Image
+                            src={request.property.images[1]}
+                            alt={request.property.title}
+                            width={400}
+                            height={350}
+                            className="rounded-xl object-cover"
+                        />
+                    ) : <>
+                    <div className="flex items-center">
+                        <p className="text-muted-foreground pl-24">
+                            No more images, add please!
+                        </p>
+                    </div>
+                    </>
+                    }
                 </div>
 
                 {/* Property */}

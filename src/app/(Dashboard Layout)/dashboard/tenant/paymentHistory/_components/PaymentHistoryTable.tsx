@@ -46,7 +46,7 @@ export default function PaymentHistoryTable({
                     <TableRow>
                         <TableHead>Payment ID</TableHead>
                         <TableHead>Amount</TableHead>
-                        <TableHead>Payment Intent</TableHead>
+                        <TableHead>Payment Method</TableHead>
                         <TableHead>Paid On</TableHead>
                         <TableHead>Status</TableHead>
                     </TableRow>
@@ -62,12 +62,9 @@ export default function PaymentHistoryTable({
                             <TableCell className="font-semibold">
                                 ৳{payment.amount.toLocaleString()}
                             </TableCell>
-                            <TableCell
-                                className="max-w-45 truncate"
-                                title={payment.stripePaymentIntentId}
-                            >
-                                {payment?.stripePaymentIntentId?.slice(0, 18)}...
-                            </TableCell>
+                            <TableCell>
+                                {payment.paymentGateway}
+                             </TableCell>
 
                             <TableCell>
                                 {format(

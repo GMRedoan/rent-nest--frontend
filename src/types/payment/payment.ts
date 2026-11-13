@@ -1,13 +1,14 @@
 export interface IPaymentHistory {
-    id: string;
-    amount: number;
-    status: "PAID" | "PENDING" | "FAILED";
-    stripeSessionId: string;
-    stripePaymentIntentId: string;
-    tenantId: string;
-    rentalRequestId: string;
-    createdAt: string;
-    updatedAt: string;
+  id: string;
+  amount: number;
+  status: "PAID" | "PENDING" | "FAILED";
+  stripeSessionId: string;
+  stripePaymentIntentId: string;
+  tenantId: string;
+  rentalRequestId: string;
+  paymentGateway: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface GetPaymentHistoryResponse {
@@ -30,7 +31,7 @@ export interface CreatePaymentResponse {
     data: {
         payment: {
             checkoutUrl: string;
-            paymentId: string;
+            paymentId?: string;
         };
     };
 }

@@ -13,13 +13,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IMyRentalHistory } from "@/types/rental/rental";
-import { FileX } from "lucide-react";
+import { CreditCard, FileX, Wallet } from "lucide-react";
 import { useState } from "react";
 import RentalDetailsModal from "./rentalDetailsModal";
 import Animate from "@/components/reusable/Animate";
-import { createPayment } from "@/server/payment/payment.service";
+import { createBkashPayment, createPayment } from "@/server/payment/payment.service";
 import { usePagination } from "@/hooks/usePagination";
 import Pagination from "@/components/reusable/Pagination";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Props {
     requests: IMyRentalHistory[];
@@ -37,14 +38,16 @@ export default function RentalHistoryTable({
         setOpen(true);
     };
 
-    const handlePayment = async (
-        rentalRequestId: string
-    ) => {
+    const handleStripePayment = async (rentalRequestId: string) => {
+      await createPayment({
+        rentalRequestId,
+      });
+    };
 
-        await createPayment({
-            rentalRequestId,
-        });
-
+    const handleBkashPayment = async (rentalRequestId: string) => {
+      await createBkashPayment({
+        rentalRequestId,
+      });
     };
 
         const {
@@ -79,123 +82,129 @@ export default function RentalHistoryTable({
         )
     }
     return (
-        <>
+      <>
         <Animate className="rounded-2xl border bg-background">
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Property</TableHead>
-                        <TableHead>Start Date</TableHead>
-                        <TableHead>End Date</TableHead>
-                        <TableHead>Request Status</TableHead>
-                        <TableHead>Payment</TableHead>
-                        <TableHead>Action</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                        {paginatedRequests.map((request) => (
-                        <TableRow key={request.id}>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Property</TableHead>
+                <TableHead>Start Date</TableHead>
+                <TableHead>End Date</TableHead>
+                <TableHead>Request Status</TableHead>
+                <TableHead>Payment</TableHead>
+                <TableHead>Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {paginatedRequests.map((request) => (
+                <TableRow key={request.id}>
+                  {/* Property */}
 
-                            {/* Property */}
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <div>
+                        <p className="font-semibold">
+                          {request.property.title}
+                        </p>
 
-                            <TableCell>
+                        <p className="text-sm text-muted-foreground">
+                          ৳{request.property.price}/month
+                        </p>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {format(new Date(request.startDate), "dd MMM yyyy")}
+                  </TableCell>
 
-                                <div className="flex items-center gap-3">
+                  <TableCell>
+                    {request.endDate
+                      ? format(new Date(request.endDate), "dd MMM yyyy")
+                      : "—"}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        request.status === "APPROVED"
+                          ? "default"
+                          : request.status === "PENDING"
+                            ? "pending"
+                            : "destructive"
+                      }
+                    >
+                      {request.status}
+                    </Badge>
+                  </TableCell>
 
-                                    <div>
-                                        <p className="font-semibold">
-                                            {request.property.title}
-                                        </p>
+                  <TableCell>
+                    {request.payment?.status === "PAID" ? (
+                      <Button
+                        size="sm"
+                        disabled
+                        className="bg-green-600! px-4 py-4!"
+                      >
+                        Paid
+                      </Button>
+                    ) : (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            disabled={request.status !== "APPROVED"}
+                          >
+                            Pay Now
+                          </Button>
+                        </DropdownMenuTrigger>
 
-                                        <p className="text-sm text-muted-foreground">
-                                            ৳{request.property.price}/month
-                                        </p>
+                        <DropdownMenuContent align="end" className="w-44">
+                          {/* Stripe Payment */}
+                          <DropdownMenuItem
+                            onClick={() => handleStripePayment(request.id)}
+                            className="cursor-pointer gap-2"
+                          >
+                            <CreditCard className="h-4 w-4 text-indigo-500" />
+                            <span>Pay with Stripe</span>
+                          </DropdownMenuItem>
 
-                                    </div>
-
-                                </div>
-                            </TableCell>
-                            <TableCell>
-                                {format(
-                                    new Date(request.startDate),
-                                    "dd MMM yyyy"
-                                )}
-                            </TableCell>
-
-                            <TableCell>
-                                {request.endDate
-                                    ? format(
-                                        new Date(request.endDate),
-                                        "dd MMM yyyy"
-                                    )
-                                    : "—"}
-                            </TableCell>
-                            <TableCell>
-
-                                <Badge
-                                    variant={
-                                        request.status === "APPROVED"
-                                            ? "default"
-                                            : request.status === "PENDING"
-                                                ? "pending"
-                                                : "destructive"
-                                    }
-                                >
-                                    {request.status}
-                                </Badge>
-
-                            </TableCell>
-
-                            <TableCell>
-                                {request.payment?.status === "PAID" ? (
-                                    <Button
-                                        size="sm"
-                                        disabled
-                                        className="bg-green-600! px-4 py-4!"
-                                    >
-                                        Paid
-                                    </Button>
-                                ) : (
-                                    <Button
-                                            onClick={() =>
-                                                handlePayment(request.id)
-                                            }
-                                        size="sm"
-                                        variant="secondary"
-                                        disabled={
-                                            request.status !== "APPROVED"
-                                        }
-                                    >
-                                        Pay Now
-                                    </Button>
-                                )}
-                            </TableCell>
-                            <TableCell className="text-right">
-
-                                <Button
-                                    variant="link"
-                                    size="sm"
-                                    onClick={() => handleView(request)}>
-                                         View
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                          {/* bKash Payment */}
+                          <DropdownMenuItem
+                            onClick={() => handleBkashPayment(request.id)}
+                            className="cursor-pointer gap-2"
+                          >
+                            <Wallet className="h-4 w-4 text-pink-600" />
+                            <span>Pay with bKash</span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="link"
+                      size="sm"
+                      onClick={() => handleView(request)}
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </Animate>
-                    {/* pagination */}
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                    />
+        {/* pagination */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
 
-            <RentalDetailsModal
-                open={open}
-                onOpenChange={setOpen}
-                request={selectedRequest}
-            />
-        </>
+        <RentalDetailsModal
+          open={open}
+          onOpenChange={setOpen}
+          request={selectedRequest}
+        />
+      </>
     );
 }

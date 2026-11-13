@@ -18,6 +18,20 @@ export const createPayment = async (payload: ICreatePayment) => {
         );
 }
 
+export const createBkashPayment = async (payload: ICreatePayment) => {
+    const res = await serverFetch.post("/payments/bkash", payload) as CreatePaymentResponse;
+    if (!res.success) {
+        return {
+            success: false,
+            message: res.message,
+            data: null,
+        };
+    }
+    redirect(
+        res.data.payment.checkoutUrl
+    );
+}
+
 export const myPaymentHistory = async () => {
     const res = await serverFetch.get("/payments") as GetPaymentHistoryResponse;
     if (!res.success) {

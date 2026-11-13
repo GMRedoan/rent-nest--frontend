@@ -20,6 +20,7 @@ import { Eye, EyeOff, Home, Loader2, ShieldCheck, UserRound } from "lucide-react
 import { demoCredentials } from "./_components/demoCredentials";
 import SocialLogin from "@/components/reusable/SocialLogin";
 import { useState } from "react";
+import ForgotPasswordDialog from "./ForgotPasswordDialog";
 
 type LoginData = z.infer<typeof loginSchema>;
 
@@ -146,6 +147,9 @@ export default function LoginForm() {
               )}
             </div>
 
+            <div className="flex justify-end">
+              <ForgotPasswordDialog />
+            </div>
             <Button
               className="w-full h-12 text-white font-semibold"
               disabled={isSubmitting || isDemoLoading}
