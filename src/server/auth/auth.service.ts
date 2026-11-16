@@ -266,7 +266,7 @@ export const resetPassword = async (payload: IResetPasswordPayload) => {
       message: "Reset password request failed. Please try again.",
     };
   }
-};
+}; 
 
 // log out
 export async function logoutAction() {

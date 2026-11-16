@@ -43,4 +43,4 @@ export const resetPasswordSchema = z.object({
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).*$/,
             "Password must contain uppercase, lowercase, number, and special character"
         ),
-}); 
+});  
